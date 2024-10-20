@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,14 +27,26 @@ import lombok.ToString;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int user_id;
-	private String device_id;
+	@Column(name = "user_id")
+	private Integer userId;
+	
+	@Column(name = "device_id")
+	private String deviceId;
+	
+	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "gender")
 	private String gender;
-	private int age;
+	
+	@Column(name = "age")
+	private Integer age;
 	
 	@CreationTimestamp
-	private LocalDateTime created_at;
+	@Column(name = "created_at")
+	private LocalDateTime createdAt;
+	
 	@UpdateTimestamp
-	private LocalDateTime updated_at;
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
 }
