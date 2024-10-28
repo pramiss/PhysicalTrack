@@ -19,4 +19,4 @@ server:
 # Privacy Keys
 jwt:
   secret: BE8MUV2fMftsDZJ9bd3dvHsS7GEAursVqfBWq9mPYJksb7uTLocByox8Ui0A90Pi
-  expiration: 31557600000000      # 1000년
+  expiration: 31557600000000      # 1000년 ?
