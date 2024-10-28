@@ -4,16 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.PhysicalTrack.user.dto.UserDto;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 	
-	private UserRepository userRepository;
-	
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+	private final UserRepository userRepository;
 	
 	// 유저 등록 API
 	public void addUser(UserDto userDto) {

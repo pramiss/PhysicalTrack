@@ -36,6 +36,16 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+	
+	// LIBRARY
+	// jjwt 0.11.5
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON parsing (Jackson)
+	
+	// modelmapper 3.2.1
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.1'
+
 }
 
 tasks.named('test') {

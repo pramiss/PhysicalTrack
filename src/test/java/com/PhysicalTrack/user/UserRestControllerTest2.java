@@ -18,10 +18,10 @@ class UserRestControllerTest2 {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
+    @Test // sign-in 테스트
     public void testSignIn() throws Exception {
     	
-        String json = "{\"deviceId\":\"device1243\"}";
+        String json = "{\"deviceId\":\"device777\"}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/user/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)

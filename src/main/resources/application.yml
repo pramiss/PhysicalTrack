@@ -15,3 +15,8 @@ spring:
         format_sql: true
 server:
   port: 80
+
+# Privacy Keys
+jwt:
+  secret: BE8MUV2fMftsDZJ9bd3dvHsS7GEAursVqfBWq9mPYJksb7uTLocByox8Ui0A90Pi
+  expiration: 18000000      # 30분

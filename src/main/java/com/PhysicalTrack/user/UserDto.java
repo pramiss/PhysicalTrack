@@ -1,4 +1,4 @@
-package com.PhysicalTrack.common.responseDto;
+package com.PhysicalTrack.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @Setter
 @Getter
-public class BasicResponseDto implements ResponseDto {
-
-	private int status;
-	private String message;
+public class UserDto {
+	private Integer userId;
+	private String deviceId;
+	private String name;
+	private String gender;
+	private Integer age;
 }
