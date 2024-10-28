@@ -30,14 +30,14 @@ class RecordRestControllerTest {
     	
     	// workoutDetail JSON
         Map<String, Object> workoutDetailJosnMap = new HashMap<>();
-        workoutDetailJosnMap.put("quantity", 78);
+        workoutDetailJosnMap.put("quantity", 66);
         
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("workoutId", 1);
         jsonMap.put("workoutDetail", objectMapper.writeValueAsString(workoutDetailJosnMap));
     	
-    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTc3NyIsInVzZXJJZCI6MjUsIm5hbWUiOiLsnYzrsJTtjpgiLCJpYXQiOjE3MzAwMjUzODQsImV4cCI6MTczMDA0MzM4NH0.GPCfUaPMrWz7-43NP0kCFkwBt-2zuoFB6cSQwHcSZrY";
+    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTc3NyIsInVzZXJJZCI6MjUsIm5hbWUiOiLsnYzrsJTtjpgiLCJpYXQiOjE3MzAwNzQyNTcsImV4cCI6MzMyODc2NzQyNTd9.Cktk7fELgQrZzcMIdxIKLNPOChoKmoAGxstsSSDSXX4";
         String json = objectMapper.writeValueAsString(jsonMap);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/record/pushups")
