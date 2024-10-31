@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.PhysicalTrack.auth.AuthService;
+import com.PhysicalTrack.common.ResponseDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,11 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class AuthenticationInterceptor implements HandlerInterceptor {
 	
+	private final ObjectMapper objectMapper;
 	private final AuthService authService;
 	
+	public AuthenticationInterceptor(AuthService authService) {
+		this.authService = authService;
+		this.objectMapper = new ObjectMapper();
+	}
 	
 	// PreHandler
 	@Override
@@ -30,7 +36,13 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 		// 1. Request Header의 JWT Token 추출하기 - 예외) 토큰이 없는 경우
 		String token = request.getHeader(HttpHeaders.AUTHORIZATION).replaceAll("Bearer ", "");
 		
-		// 2. TODO: JWT Token의 유효성 검사 by JwtTokenProvider - 예외) 유효기간 만료
+		// 2. JWT Token의 유효성 검사 by JwtTokenProvider - 예외) 유효기간 만료
+		if (!authService.validateToken(token)) {
+			response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            response.setContentType("application/json");
+            objectMapper.writeValue(response.getWriter(), new ResponseDto<>(406, "Expired JWT token", null));
+			return false;
+		}
 		
 		// 3. JWT Token Parsing 후 담아주기 - return true
 		Claims claims = authService.getClaims(token);

@@ -22,15 +22,31 @@ public class AuthService {
 		this.userService = userService;
 	}
 	
-	// JWT Token 발급하기 (deviceId -> (UserDto) -> AccessToken)
+	/**
+	 * JWT Token 발급하기 (deviceId -> (UserDto) -> AccessToken)
+	 * @param deviceId
+	 * @return
+	 */
 	public String getToken(String deviceId) {
 		AccessToken accessToken = modelMapper.map(userService.getUserByDeviceId(deviceId), AccessToken.class);
 		return jwtTokenProvider.generateToken(accessToken);
 	}
 	
-	// JWT Token 유효성 검사하기
+	/**
+	 * JWT Token 유효성 검사하기
+	 * @param token
+	 * @return
+	 */
+	public boolean validateToken(String token) {
+		return jwtTokenProvider.validateToken(token);
+	}
 	
-	// JWT Token Claims 가져오기 (token -> Claims)
+	
+	/**
+	 * JWT Token Claims 가져오기 (token -> Claims)
+	 * @param token
+	 * @return
+	 */
 	public Claims getClaims(String token) {
 		return jwtTokenProvider.getTokenClaims(token);
 	}
