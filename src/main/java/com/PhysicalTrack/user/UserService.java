@@ -1,6 +1,8 @@
 package com.PhysicalTrack.user;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,10 @@ public class UserService {
 	
 	private final UserRepository userRepository;
 	
-	// 유저 등록 API
+	/**
+	 * 유저 등록 API
+	 * @param userDto
+	 */
 	public void addUser(UserDto userDto) {
 		
 		// 1. SignUpRequestDto를 User Entity로 변환
@@ -28,7 +33,7 @@ public class UserService {
 	}
 	
 	/**
-	 * 유저 정보 조회
+	 * 유저 정보 조회 (단건)
 	 * @param deviceId
 	 * @return userDto ? null
 	 */
@@ -44,6 +49,22 @@ public class UserService {
 	}
 	
 
+	/**
+	 * UserIds로 UserNames 조회 (리스트)
+	 * @param userIds
+	 * @return
+	 */
+	public Map<Integer, String> getUserNamesByIds(List<Integer> userIds) {
+		return userRepository.findAllById(userIds).stream()
+			            .collect(Collectors.toMap(
+			                User::getUserId,    
+			                User::getName
+			            ));
+    }
+	
+	
+	
+	
 	// test code
 	public List<User> test3() {
 		return userRepository.findAll();

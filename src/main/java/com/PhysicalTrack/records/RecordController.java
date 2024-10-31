@@ -20,12 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/api/record/")
 @RestController
-public class RecordRestController {
+public class RecordController {
 
 	private final ObjectMapper objectMapper;
 	private final RecordService recordService;
 	
-	public RecordRestController(RecordService recordService) {
+	public RecordController(RecordService recordService) {
 		this.recordService = recordService;
 		this.objectMapper = new ObjectMapper();
 	}

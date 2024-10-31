@@ -1,4 +1,4 @@
-package com.PhysicalTrack.record;
+package com.PhysicalTrack.ranking;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,35 +17,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class RecordRestControllerTest {
+class RankingControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Test // sign-up 테스트
-    public void testSignUp() throws Exception {
+    @Test // pushup ranking 가져오기
+    public void testPushupRanking() throws Exception {
     	
     	// object Mapper
     	ObjectMapper objectMapper = new ObjectMapper();
     	
-    	// workoutDetail JSON
-        Map<String, Object> workoutDetailJosnMap = new HashMap<>();
-        workoutDetailJosnMap.put("quantity", 45);
-        
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();
-        jsonMap.put("workoutId", 1);
-        jsonMap.put("workoutDetail", objectMapper.writeValueAsString(workoutDetailJosnMap));
-    	
+        
     	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTg4MjcyIiwidXNlcklkIjoyNiwibmFtZSI6IuuplOuouOuTnCIsImlhdCI6MTczMDI2ODkzNywiZXhwIjoxNzMwNTI4MTM3fQ.d1cDKdfOvStNFpjHIVroEIzpy-oqEoTNUGqpipynqaw";
         String json = objectMapper.writeValueAsString(jsonMap);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/record/pushups")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/ranking/pushup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .content(json))
         		.andDo(MockMvcResultHandlers.print());
         
     }
+
 
 }

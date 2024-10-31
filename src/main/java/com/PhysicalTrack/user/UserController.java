@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/user")
 @RestController
 @RequiredArgsConstructor
-public class UserRestController {
+public class UserController {
 
 	private final UserService userService;
 	private final AuthService authService;
@@ -78,7 +78,7 @@ public class UserRestController {
 				.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .body(new ResponseDto<>(200, "사용자 등록 성공", null));
 	}
-	
+
 	/**
 	 * 유저 조회 API
 	 * @param userDto
@@ -105,6 +105,8 @@ public class UserRestController {
 				.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .body(new ResponseDto<>(200, "유저 확인 성공", null));
 	}
+	
+	
 	
 	
 
