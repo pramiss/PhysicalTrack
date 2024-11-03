@@ -40,7 +40,7 @@ public class UserController {
 		// 0. fields
 		String deviceId = userDto.getDeviceId();
 		String name = userDto.getName();
-		int age = userDto.getAge();
+		int birthYear = userDto.getBirthYear();
 		String gender = userDto.getGender();
 		
 		// 1-1. 입력 데이터 유효성 검사
@@ -52,9 +52,9 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseDto<>(400, "이름이 64자리를 초과합니다.", null));
 		}
-		if (age > 200 || age < 1) {
+		if (birthYear < 1900 || birthYear > 2100) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseDto<>(400, "나이는 200이하의 자연수만 입력가능합니다.", null));
+                    .body(new ResponseDto<>(400, "출생년도 범위오류: {1900 < birthYear < 2100}", null));
 		}
 		if (!List.of("male", "female").contains(gender)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)

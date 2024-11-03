@@ -16,5 +16,5 @@ public class UserDto {
 	private String deviceId;
 	private String name;
 	private String gender;
-	private Integer age;
+	private Integer birthYear;
 }

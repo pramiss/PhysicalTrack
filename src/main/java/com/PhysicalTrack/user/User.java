@@ -39,8 +39,8 @@ public class User {
 	@Column(name = "gender")
 	private String gender;
 	
-	@Column(name = "age")
-	private Integer age;
+	@Column(name = "birth_year")
+	private Integer birthYear;
 	
 	@CreationTimestamp
 	@Column(name = "created_at")

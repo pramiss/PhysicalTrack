@@ -25,7 +25,7 @@ public class UserService {
 				.deviceId(userDto.getDeviceId())
 				.name(userDto.getName())
 				.gender(userDto.getGender())
-				.age(userDto.getAge())
+				.birthYear(userDto.getBirthYear())
 				.build();
 		
 		// 2. User Entity 저장
@@ -42,7 +42,7 @@ public class UserService {
 		UserDto userDto = null;
 		
 		if (user != null) {
-			userDto = new UserDto(user.getUserId(), user.getDeviceId(), user.getName(), user.getGender(), user.getAge());
+			userDto = new UserDto(user.getUserId(), user.getDeviceId(), user.getName(), user.getGender(), user.getBirthYear());
 		}
 		
 		return userDto;

@@ -31,7 +31,7 @@ class RankingControllerTest {
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();
         
-    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTg4MjcyIiwidXNlcklkIjoyNiwibmFtZSI6IuuplOuouOuTnCIsImlhdCI6MTczMDI2ODkzNywiZXhwIjoxNzMwNTI4MTM3fQ.d1cDKdfOvStNFpjHIVroEIzpy-oqEoTNUGqpipynqaw";
+    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6Im1lZ2EyOTE3MyIsInVzZXJJZCI6MiwibmFtZSI6IuyVoO2UjOunneqzoCIsImlhdCI6MTczMDYxNzE4OSwiZXhwIjoxNzMwODc2Mzg5fQ.bMduZvjwf87gGrR8C9-RVAIDLjSFAAoIrag-hCog8aU";
         String json = objectMapper.writeValueAsString(jsonMap);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/ranking/pushup")

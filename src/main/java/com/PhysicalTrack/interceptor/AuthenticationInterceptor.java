@@ -34,12 +34,21 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 		// (0. 로그인/회원가입 api 은 예외)
 		
 		// 1. Request Header의 JWT Token 추출하기 - 예외) 토큰이 없는 경우
-		String token = request.getHeader(HttpHeaders.AUTHORIZATION).replaceAll("Bearer ", "");
+		String token = "";
+		try {
+			token = request.getHeader(HttpHeaders.AUTHORIZATION).replaceAll("Bearer ", "");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json;charset=UTF-8");
+            objectMapper.writeValue(response.getWriter(), new ResponseDto<>(401, "헤더에 토큰이 필요합니다. Authorization: Bear {jwt token}", null));
+            return false;
+		}
+		
 		
 		// 2. JWT Token의 유효성 검사 by JwtTokenProvider - 예외) 유효기간 만료
 		if (!authService.validateToken(token)) {
 			response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            response.setContentType("application/json");
+            response.setContentType("application/json;charset=UTF-8");
             objectMapper.writeValue(response.getWriter(), new ResponseDto<>(406, "Expired JWT token", null));
 			return false;
 		}

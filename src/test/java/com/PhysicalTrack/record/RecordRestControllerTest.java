@@ -30,14 +30,16 @@ class RecordRestControllerTest {
     	
     	// workoutDetail JSON
         Map<String, Object> workoutDetailJosnMap = new HashMap<>();
-        workoutDetailJosnMap.put("quantity", 45);
+        workoutDetailJosnMap.put("quantity", 59);
         
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("workoutId", 1);
         jsonMap.put("workoutDetail", objectMapper.writeValueAsString(workoutDetailJosnMap));
     	
-    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTg4MjcyIiwidXNlcklkIjoyNiwibmFtZSI6IuuplOuouOuTnCIsImlhdCI6MTczMDI2ODkzNywiZXhwIjoxNzMwNTI4MTM3fQ.d1cDKdfOvStNFpjHIVroEIzpy-oqEoTNUGqpipynqaw";
+        // eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6Im1lZ2EyOTE3MyIsInVzZXJJZCI6MiwibmFtZSI6IuyVoO2UjOunneqzoCIsImlhdCI6MTczMDYxNzE4OSwiZXhwIjoxNzMwODc2Mzg5fQ.bMduZvjwf87gGrR8C9-RVAIDLjSFAAoIrag-hCog8aU
+        // eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTg4MjcyIiwidXNlcklkIjoxLCJuYW1lIjoi66mU66i465OcIiwiaWF0IjoxNzMwNjE3MzIyLCJleHAiOjE3MzA4NzY1MjJ9.W89zHDZAtOUZk4B1pELybmNy1SN1YZ9QI-WXwY80IEg
+    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6Im1lZ2EyOTE3MyIsInVzZXJJZCI6MiwibmFtZSI6IuyVoO2UjOunneqzoCIsImlhdCI6MTczMDYxNzE4OSwiZXhwIjoxNzMwODc2Mzg5fQ.bMduZvjwf87gGrR8C9-RVAIDLjSFAAoIrag-hCog8aU";
         String json = objectMapper.writeValueAsString(jsonMap);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/record/pushups")

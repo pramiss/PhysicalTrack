@@ -21,7 +21,7 @@ class UserRestControllerTest2 {
     @Test // sign-in 테스트
     public void testSignIn() throws Exception {
     	
-        String json = "{\"deviceId\":\"device666\"}";
+        String json = "{\"deviceId\":\"device88272\"}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/user/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)

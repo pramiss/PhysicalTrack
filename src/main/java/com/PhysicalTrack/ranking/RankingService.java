@@ -32,7 +32,10 @@ public class RankingService {
 		this.objectMapper = new ObjectMapper();
 	}
 	
-	// Pushup Ranking 가져오기 (지난 1달)
+	/**
+	 * Pushup Ranking 가져오기 (지난 1달)
+	 * @return
+	 */
 	public List<PushupRankingDto> getPushupRanking() {
 		
 		// 0. sql setting (workoutId, createdAt)
