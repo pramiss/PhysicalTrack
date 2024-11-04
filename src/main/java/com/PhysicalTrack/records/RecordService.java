@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import com.PhysicalTrack.records.dto.Record;
+import com.PhysicalTrack.records.dto.RecordDto;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -35,7 +38,12 @@ public class RecordService {
 	 * @param oneMonthAgo
 	 * @return
 	 */
-	public List<Record> getPushupRecords(Integer workoutId, LocalDateTime oneMonthAgo) {
-		return recordRepository.findPushupRecords(workoutId, oneMonthAgo);
+	public List<Record> getMonthlyPushupRecordsByWorkoutId(Integer workoutId, LocalDateTime oneMonthAgo) {
+		return recordRepository.findMonthlyPushupRecordsByWorkoutId(workoutId, oneMonthAgo);
+	}
+	
+	// 일주일간 Pushup Record 목록을 가져온다.
+	public List<Record> getWeeklyPushupRecordsByWorkoutIduserId(Integer workoutId, Integer userId, LocalDateTime oneWeekAgo) {
+		return recordRepository.findWeeklyPushupRecordsByWorkoutIduserId(workoutId, userId, oneWeekAgo);
 	}
 }

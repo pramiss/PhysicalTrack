@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.PhysicalTrack.auth.AuthService;
 import com.PhysicalTrack.common.ResponseDto;
+import com.PhysicalTrack.user.dto.User;
+import com.PhysicalTrack.user.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.PhysicalTrack.records;
+package com.PhysicalTrack.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @Setter
 @Getter
-public class RecordDto {
+public class UserDto {
 	private Integer userId;
-	private Integer workoutId;
-	private String workoutDetail;
+	private String deviceId;
+	private String name;
+	private String gender;
+	private Integer birthYear;
 }

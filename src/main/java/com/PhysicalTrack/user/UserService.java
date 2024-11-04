@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.PhysicalTrack.user.dto.User;
+import com.PhysicalTrack.user.dto.UserDto;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -52,7 +55,7 @@ public class UserService {
 	/**
 	 * UserIds로 UserNames 조회 (리스트)
 	 * @param userIds
-	 * @return
+	 * @return Map<UserId, Name>
 	 */
 	public Map<Integer, String> getUserNamesByIds(List<Integer> userIds) {
 		return userRepository.findAllById(userIds).stream()
@@ -62,8 +65,14 @@ public class UserService {
 			            ));
     }
 	
-	
-	
+	/**
+	 * Get Name By UserId (단건)
+	 * @param userId
+	 * @return name
+	 */
+	public String getUserNameByUserId(int userId) {
+		return userRepository.findById(userId).orElse(null).getName();
+	}
 	
 	// test code
 	public List<User> test3() {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.PhysicalTrack.common.ResponseDto;
 import com.PhysicalTrack.ranking.dto.PushupRankingDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,13 @@ public class RankingController {
 		List<PushupRankingDto> pushupRankingList = null;
 
 		// 1. pushup ranking 조회
-		pushupRankingList = rankingService.getPushupRanking();
+		try {
+			pushupRankingList = rankingService.getMonthlyPushupRanking();
+		} catch (JsonProcessingException e) {
+			log.error("DB 확인 요망: JsonProcessingException {workoutDetail : quantity} in pushup");
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+	                .body(new ResponseDto<>(422, "DB 확인 요망: JsonProcessingException {workoutDetail : quantity} in Pushup", null));
+		}
 		
 		// return.
 		data.put("pushupRanking", pushupRankingList);

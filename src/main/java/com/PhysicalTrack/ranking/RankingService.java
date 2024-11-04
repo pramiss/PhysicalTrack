@@ -9,11 +9,12 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.PhysicalTrack.ranking.dto.PushupRankingDto;
-import com.PhysicalTrack.records.Record;
 import com.PhysicalTrack.records.RecordRepository;
 import com.PhysicalTrack.records.RecordService;
+import com.PhysicalTrack.records.dto.Record;
 import com.PhysicalTrack.user.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,27 +36,24 @@ public class RankingService {
 	/**
 	 * Pushup Ranking 가져오기 (지난 1달)
 	 * @return
+	 * @throws JsonProcessingException 
+	 * @throws JsonMappingException 
 	 */
-	public List<PushupRankingDto> getPushupRanking() {
+	public List<PushupRankingDto> getMonthlyPushupRanking() throws JsonMappingException, JsonProcessingException {
 		
 		// 0. sql setting (workoutId, createdAt)
 		List<PushupRankingDto> pushupRankingDtos = new ArrayList<>();
-		int workoutId = 1;
 		LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+		int workoutId = 1; // pushup
 		
 		// 1. 최근 한달 동안의 pushup 기록을 가져온다. (workoutId = 1)
-		List<Record> records = recordService.getPushupRecords(workoutId, oneMonthAgo);
+		List<Record> records = recordService.getMonthlyPushupRecordsByWorkoutId(workoutId, oneMonthAgo);
 		
 		// 2. List<Record> -> List<PushupRankingDto> : userId마다 quantity가 가장 큰 것만.
 		for (Record record : records) {
 			// userId, quantity
 			int userId = record.getUserId();
-			int quantity = 0; 
-			try {
-				quantity = objectMapper.readTree(record.getWorkoutDetail()).get("quantity").asInt();
-			} catch (JsonProcessingException e) {
-				log.error("JsonProcessingException {workoutDetail : quantity}");
-			}
+			int quantity = objectMapper.readTree(record.getWorkoutDetail()).get("quantity").asInt(); 
 			
 			// 0) userId에 해당하는 dto 존재확인
 			PushupRankingDto pushupRankingDto = pushupRankingDtos.stream()

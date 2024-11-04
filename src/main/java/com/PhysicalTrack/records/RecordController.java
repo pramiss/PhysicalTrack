@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.PhysicalTrack.common.ResponseDto;
+import com.PhysicalTrack.records.dto.RecordDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +31,12 @@ public class RecordController {
 		this.objectMapper = new ObjectMapper();
 	}
 	
-	// pushup을 기록하는 api
+	/**
+	 * pushup을 기록하는 API
+	 * @param recordDto
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/pushups")
 	public ResponseEntity<?> recordPushup(@RequestBody RecordDto recordDto
 			, HttpServletRequest request) {

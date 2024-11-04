@@ -1,4 +1,4 @@
-package com.PhysicalTrack.user;
+package com.PhysicalTrack.user.dto;
 
 import java.time.LocalDateTime;
 
