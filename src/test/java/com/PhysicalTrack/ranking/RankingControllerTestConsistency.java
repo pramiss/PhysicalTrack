@@ -1,4 +1,4 @@
-package com.PhysicalTrack.statistics;
+package com.PhysicalTrack.ranking;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,13 +17,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class StatisticsControllerTestOther {
+class RankingControllerTestConsistency {
 
 	@Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void testPushupRanking() throws Exception {
+    @Test // pushup ranking 가져오기
+    public void testConsistencyRanking() throws Exception {
     	
     	// object Mapper
     	ObjectMapper objectMapper = new ObjectMapper();
@@ -31,15 +31,14 @@ class StatisticsControllerTestOther {
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();
         
-    	String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImF1dHVtbldpdGhDb21wb3NlMTIzMTIiLCJ1c2VySWQiOjMsIm5hbWUiOiLrsLDsp4TtlZgiLCJpYXQiOjE3MzA2ODk4NTcsImV4cCI6MTczMDk0OTA1N30.DyUnQf3hGbrpTkkJ5Rqhxua4HrxQpgp_zLttGJj0wzs";
+    	String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDczMDIyOSwiZXhwIjoxNzMwOTg5NDI5fQ.vWVO6Qt2jV7Eq7-FkxV42fM58JZCHAyKJ8pcrLyFPWQ";
         String json = objectMapper.writeValueAsString(jsonMap);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/statistics/weekly-stats/2")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/ranking/consistency")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .content(json))
         		.andDo(MockMvcResultHandlers.print());
-        
     }
 
 }

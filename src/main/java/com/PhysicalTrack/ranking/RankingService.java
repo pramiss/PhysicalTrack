@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.PhysicalTrack.ranking.dto.PushupRankingDto;
-import com.PhysicalTrack.records.RecordRepository;
 import com.PhysicalTrack.records.RecordService;
 import com.PhysicalTrack.records.dto.Record;
 import com.PhysicalTrack.user.UserService;

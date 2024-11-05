@@ -20,7 +20,7 @@ class UserRestControllerTest1 {
     @Test // sign-up 테스트
     public void testSignUp() throws Exception {
     	
-        String json = "{\"deviceId\":\"autumnWithCompose12312\",\"name\":\"배진하\",\"birthYear\":1998,\"gender\":\"male\"}";
+        String json = "{\"deviceId\":\"device123456789\",\"name\":\"홍길동\",\"birthYear\":1996,\"gender\":\"male\"}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/user/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)

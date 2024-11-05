@@ -28,6 +28,8 @@ public class RankingController {
 		this.rankingService = rankingService;
 	}
 	
+
+	
 	/**
 	 * Pushup Ranking 가져오는 API
 	 * @param request
@@ -53,5 +55,12 @@ public class RankingController {
 		data.put("pushupRanking", pushupRankingList);
 		return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto<>(200, "Pushup Raking 조회 성공", data));
+	}
+	
+	// Consistency Ranking API (미구현, 에러처리)
+	@GetMapping("/consistency")
+	public ResponseEntity<?> getConsistencyRanking(HttpServletRequest request) {
+		return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto<>(200, "*** 미구현 API 입니다 ***", null));
 	}
 }
