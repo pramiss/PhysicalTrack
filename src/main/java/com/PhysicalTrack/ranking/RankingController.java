@@ -39,7 +39,6 @@ public class RankingController {
 	public ResponseEntity<?> getPushupRanking(HttpServletRequest request) {
 		
 		// 0. data field
-		Map<String, Object> data = new HashMap<>();
 		List<PushupRankingDto> pushupRankingList = null;
 
 		// 1. pushup ranking 조회
@@ -52,9 +51,8 @@ public class RankingController {
 		}
 		
 		// return.
-		data.put("pushupRanking", pushupRankingList);
 		return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDto<>(200, "Pushup Raking 조회 성공", data));
+                .body(new ResponseDto<>(200, "Pushup Raking 조회 성공", pushupRankingList));
 	}
 	
 	// Consistency Ranking API (미구현, 에러처리)
