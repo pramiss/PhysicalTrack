@@ -31,7 +31,7 @@ class RankingControllerTestConsistency {
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();
         
-    	String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDczMDIyOSwiZXhwIjoxNzMwOTg5NDI5fQ.vWVO6Qt2jV7Eq7-FkxV42fM58JZCHAyKJ8pcrLyFPWQ";
+    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NTgzMSwiZXhwIjoxNzMxMjQ1MDMxfQ.62nZn-AGjZZOieUJf0mWhvaC0WrTbC8anc9GUQ75Vgw";
         String json = objectMapper.writeValueAsString(jsonMap);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/ranking/consistency")

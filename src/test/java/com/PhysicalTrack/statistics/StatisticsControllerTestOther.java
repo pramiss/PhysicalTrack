@@ -31,7 +31,7 @@ class StatisticsControllerTestOther {
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();
         
-    	String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImF1dHVtbldpdGhDb21wb3NlMTIzMTIiLCJ1c2VySWQiOjMsIm5hbWUiOiLrsLDsp4TtlZgiLCJpYXQiOjE3MzA2ODk4NTcsImV4cCI6MTczMDk0OTA1N30.DyUnQf3hGbrpTkkJ5Rqhxua4HrxQpgp_zLttGJj0wzs";
+    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NTgzMSwiZXhwIjoxNzMxMjQ1MDMxfQ.62nZn-AGjZZOieUJf0mWhvaC0WrTbC8anc9GUQ75Vgw";
         String json = objectMapper.writeValueAsString(jsonMap);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/statistics/weekly-stats/2")
