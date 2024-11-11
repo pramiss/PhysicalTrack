@@ -22,15 +22,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		// + Authentication Interceptor
 		registry.addInterceptor(authenticationInterceptor)
 				.addPathPatterns("/api/**")
-				.excludePathPatterns("/api/user/**");
+	            .excludePathPatterns("/api/user/**");
 	}
 	
     // Add CORS Configuration
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("*")  // 실제 환경에서는 특정 도메인으로 제한하세요
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("*");
+        		.allowedOrigins("http://localhost:3000")  // 실제 환경에서는 특정 도메인으로 제한하세요
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+        		.allowCredentials(true);
     }
 }
