@@ -45,34 +45,26 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 		String token = "";
 		try {
 			token = request.getHeader(HttpHeaders.AUTHORIZATION).replaceAll("Bearer ", "");
-			log.info("111111111111111111111");
 		} catch (Exception e) {
-			log.info("222222222222222222222");
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json;charset=UTF-8");
             objectMapper.writeValue(response.getWriter(), new ResponseDto<>(401, "헤더에 토큰이 필요합니다. Authorization: Bear {jwt token}", null));
             return false;
 		}
 		
-		log.info("3333333333333333");
-		
 		// 2. JWT Token의 유효성 검사 by JwtTokenProvider - 예외) 유효기간 만료
 		if (!authService.validateToken(token)) {
-			log.info("4444444444444444444");
 			response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
             response.setContentType("application/json;charset=UTF-8");
             objectMapper.writeValue(response.getWriter(), new ResponseDto<>(406, "Expired JWT token", null));
 			return false;
 		}
 		
-		log.info("55555555555555555555");
 		// 3. JWT Token Parsing 후 담아주기 - return true
 		Claims claims = authService.getClaims(token);
 		request.setAttribute("userId", claims.get("userId"));
 		request.setAttribute("deviceId", claims.get("deviceId"));
 		request.setAttribute("name", claims.get("name"));
-		
-		log.info("666666666666666666666666");
 		
 		return true;
 	}
