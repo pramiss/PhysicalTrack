@@ -22,15 +22,15 @@ class RecordRestControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test // sign-up 테스트
-    public void testSignUp() throws Exception {
+    @Test
+    public void testPushupRecord() throws Exception {
     	
     	// object Mapper
     	ObjectMapper objectMapper = new ObjectMapper();
     	
     	// workoutDetail JSON
         Map<String, Object> workoutDetailJosnMap = new HashMap<>();
-        workoutDetailJosnMap.put("quantity", 30);
+        workoutDetailJosnMap.put("quantity", 23);
         
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();
@@ -38,10 +38,10 @@ class RecordRestControllerTest {
         jsonMap.put("workoutDetail", objectMapper.writeValueAsString(workoutDetailJosnMap));
     	
 
-    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NTgzMSwiZXhwIjoxNzMxMjQ1MDMxfQ.62nZn-AGjZZOieUJf0mWhvaC0WrTbC8anc9GUQ75Vgw";
+    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
         String json = objectMapper.writeValueAsString(jsonMap);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/record/pushups")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/record/pushup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .content(json))

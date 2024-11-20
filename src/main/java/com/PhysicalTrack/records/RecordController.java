@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.PhysicalTrack.common.ResponseDto;
+import com.PhysicalTrack.consistency.ConsistencyService;
 import com.PhysicalTrack.records.dto.RecordDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -25,9 +26,11 @@ public class RecordController {
 
 	private final ObjectMapper objectMapper;
 	private final RecordService recordService;
+	private final ConsistencyService consistencyService;
 	
-	public RecordController(RecordService recordService) {
+	public RecordController(RecordService recordService, ConsistencyService consistencyService) {
 		this.recordService = recordService;
+		this.consistencyService = consistencyService;
 		this.objectMapper = new ObjectMapper();
 	}
 	
@@ -37,7 +40,7 @@ public class RecordController {
 	 * @param request
 	 * @return
 	 */
-	@PostMapping("/pushups")
+	@PostMapping("/pushup")
 	public ResponseEntity<?> recordPushup(@RequestBody RecordDto recordDto
 			, HttpServletRequest request) {
 		// 0. RecordDto 완성
@@ -65,7 +68,10 @@ public class RecordController {
 		// 2. pushup 데이터 저장 (by RecordDto)
 		recordService.addRecord(recordDto);
 		
-		// 3. return 성공
+		// 3. 해당 유저의 consistency `last_workout_date` 업데이트
+		consistencyService.updateLastWorkoutDate((Integer) request.getAttribute("userId"));
+		
+		// 4. return 성공
 		return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto<>(200, "Pushup 기록 성공", null));
 	}
