@@ -7,6 +7,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.PhysicalTrack.consistency.dto.Consistency;
+import com.PhysicalTrack.consistency.dto.ConsistencyDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,9 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 public class ConsistencyService {
 	
 	private final ConsistencyRepository consistencyRepository;
+	private final ObjectMapper objectMapper;
 	
 	public ConsistencyService(ConsistencyRepository consistencyRepository) {
 		this.consistencyRepository = consistencyRepository;
+		objectMapper = new ObjectMapper()
+			    .findAndRegisterModules()
+			    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	}
 	
 	/**
@@ -46,7 +54,9 @@ public class ConsistencyService {
 		}
 	}
 	
-	// 모든유저 'streak_count' 업데이트
+	/**
+	 * 모든유저 'streak_count' 업데이트 -- Batch Job
+	 */
 	public void updateStreakCount() {
 		
 		// field: 오늘날짜
@@ -74,4 +84,21 @@ public class ConsistencyService {
 			consistencyRepository.save(consistency);
 		} //-- for loop
 	} //-- updateStreakCount
+	
+	// ConsistencyDto 리스트 가져오기 -- Ranking API
+	// Consistency -> ConsistencyDto
+	public List<ConsistencyDto> getConsistencyDtos() {
+		// 1. Consistency 리스트 가져오기
+		List<Consistency> consistencies = consistencyRepository.findAllByOrderByStreakCountDesc();
+		log.info("&&&&&&&&&&& consistencies : {}", consistencies.toString());
+		
+		// 2. Consistency -> ConsistencyDto
+		List<ConsistencyDto> consistencyDtos = objectMapper.convertValue(
+												consistencies, new TypeReference<List<ConsistencyDto>>() {});
+		log.info("%%%%%%%%%%% consistencyDtos : {}", consistencyDtos.toString());
+		
+		// return ConsistencyDto 리스트
+		return consistencyDtos;
+	} //-- getConsistencyDtos
+	
 } //-- ConsistencyService

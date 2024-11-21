@@ -1,8 +1,6 @@
 package com.PhysicalTrack.ranking;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.PhysicalTrack.common.ResponseDto;
+import com.PhysicalTrack.ranking.dto.ConsistencyRankingDto;
 import com.PhysicalTrack.ranking.dto.PushupRankingDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -50,15 +49,23 @@ public class RankingController {
 	                .body(new ResponseDto<>(422, "DB 확인 요망: JsonProcessingException {workoutDetail : quantity} in Pushup", null));
 		}
 		
-		// return.
+		// return 200
 		return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto<>(200, "Pushup Raking 조회 성공", pushupRankingList));
 	}
 	
-	// Consistency Ranking API (미구현, 에러처리)
+	// Consistency Ranking API
 	@GetMapping("/consistency")
 	public ResponseEntity<?> getConsistencyRanking(HttpServletRequest request) {
+		
+		// 0. data field
+		List<ConsistencyRankingDto> consistencyRankingList = null;
+
+		// 1. consistency ranking 조회
+		consistencyRankingList = rankingService.getConsistencyRanking();
+		
+		// return 200
 		return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDto<>(200, "*** 미구현 API 입니다 ***", null));
+                .body(new ResponseDto<>(200, "Consistency Raking 조회 성공", consistencyRankingList));
 	}
 }

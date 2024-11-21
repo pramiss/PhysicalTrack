@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.PhysicalTrack.consistency.ConsistencyService;
+import com.PhysicalTrack.consistency.dto.ConsistencyDto;
+import com.PhysicalTrack.ranking.dto.ConsistencyRankingDto;
 import com.PhysicalTrack.ranking.dto.PushupRankingDto;
 import com.PhysicalTrack.records.RecordService;
 import com.PhysicalTrack.records.dto.Record;
@@ -25,10 +28,12 @@ public class RankingService {
 	private final ObjectMapper objectMapper;
 	private final RecordService recordService;
 	private final UserService userService;
+	private final ConsistencyService consistencyService;
 	
-	public RankingService(RecordService recordService, UserService userService) {
+	public RankingService(RecordService recordService, UserService userService, ConsistencyService consistencyService) {
 		this.recordService = recordService;
 		this.userService = userService;
+		this.consistencyService = consistencyService;
 		this.objectMapper = new ObjectMapper();
 	}
 	
@@ -92,5 +97,44 @@ public class RankingService {
 		// 5. return
 		log.info("@@@@@@@@ {pushupRankingDtos} : " + pushupRankingDtos);
 		return pushupRankingDtos;
-	}
+	} //-- getMonthlyPushupRanking
+	
+	// Consistency Ranking 가져오기
+	public List<ConsistencyRankingDto> getConsistencyRanking() {
+		
+		// 1. consistency service 에서 ConsistencyDto 리스트를 가져온다.
+		List<ConsistencyDto> consistencyDtos = consistencyService.getConsistencyDtos();
+		
+		// 2. ConsistencyDto -> ConsistencyRankingDto : userId, streakCount
+		List<ConsistencyRankingDto> consistencyRankingDtos = new ArrayList<>();
+		
+		for (ConsistencyDto consistencyDto : consistencyDtos) {
+			ConsistencyRankingDto consistencyRankingDto = new ConsistencyRankingDto(
+															consistencyDto.getUserId(),
+															consistencyDto.getStreakCount());
+			consistencyRankingDtos.add(consistencyRankingDto);
+		}
+		
+		// --- 추가작업: user name 가져오기 + rank 세팅 ---
+		
+		// 1) userId 목록 추출
+		List<Integer> userIds = consistencyDtos.stream()
+		    .map(ConsistencyDto::getUserId)
+		    .collect(Collectors.toList());
+
+		// 2) 모든 사용자 정보 조회
+		Map<Integer, String> userNameMap = userService.getUserNamesByIds(userIds);
+
+		// 3) 메모리에서 매핑
+		int rank = 1;
+		for (ConsistencyRankingDto dto : consistencyRankingDtos) {
+		    dto.setName(userNameMap.get(dto.getUserId()));
+		    dto.setRank(rank++);
+		}
+		// -----------------------------------------
+
+		// 3. return List<ConsistencyRankingDto>
+		log.info("$$$$$$$$$$ consistencyRankingDtos : {}", consistencyRankingDtos);
+		return consistencyRankingDtos;
+	} //-- getConsistencyRanking
 }
