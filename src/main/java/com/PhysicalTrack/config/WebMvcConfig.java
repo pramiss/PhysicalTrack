@@ -29,7 +29,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-        		.allowedOrigins("http://localhost:3000")  // 실제 환경에서는 특정 도메인으로 제한하세요
+        		.allowedOrigins(
+        				"http://localhost:3000",
+        				"https://physical-t-7jce.vercel.app"
+        		)  // 허용 도메인
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
         		.allowCredentials(true);
