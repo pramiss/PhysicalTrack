@@ -1,6 +1,9 @@
 package com.PhysicalTrack.records;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +50,7 @@ public class RecordController {
 		recordDto.setUserId((Integer) request.getAttribute("userId"));
 		
 		// 1. pushup - Validation (필수: quantity, 선택: tempo)
+		
 		Map<String, Object> workoutDetail;
 		try {
 			workoutDetail = objectMapper.readValue(recordDto.getWorkoutDetail(), new TypeReference<Map<String, Object>>() {});
@@ -55,6 +59,9 @@ public class RecordController {
 	                .body(new ResponseDto<>(400, "workoutDetail must be **JSON String**", null));
 		}
 		
+		log.info("################ workoutDetail: {}", workoutDetail.toString());
+		
+		// pushup quanitity 검사: not null, type check
 		Object quantityObj = workoutDetail.get("quantity");
 		if (quantityObj == null) {
 		    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -63,6 +70,21 @@ public class RecordController {
 		if (!(quantityObj instanceof Number)) {
 		    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 		            .body(new ResponseDto<>(400, "Mismatch type workoutDetail key: **quantity**", null));
+		}
+		
+		// pushpu tempo 검사: nullable, type check
+		Object tempoObject = workoutDetail.get("tempo");
+		try { // type casting 검사
+			List<?> tempo = (List<?>) tempoObject;
+			for (Object item : tempo) {
+			    if (!(item instanceof Number)) {
+			        throw new ClassCastException();
+			    }
+			}
+		} catch (ClassCastException e) {
+		    // 타입이 맞지 않을 경우 처리
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+		            .body(new ResponseDto<>(400, "Mismatch type workoutDetail key: **tempo**", null));
 		}
 		
 		// 2. pushup 데이터 저장 (by RecordDto)

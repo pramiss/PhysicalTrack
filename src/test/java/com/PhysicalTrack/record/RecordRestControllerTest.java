@@ -1,6 +1,9 @@
 package com.PhysicalTrack.record;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -30,7 +33,16 @@ class RecordRestControllerTest {
     	
     	// workoutDetail JSON
         Map<String, Object> workoutDetailJosnMap = new HashMap<>();
-        workoutDetailJosnMap.put("quantity", 23);
+        workoutDetailJosnMap.put("quantity", 34);
+        
+        // List<Double> tempoList = new ArrayList<>(); //--> 저장O
+        // List<Integer> tempoList = Arrays.asList(2, 4, 5, 6, 9); //--> 저장O
+        // List<Object> tempoList = Arrays.asList(2, 4.24, 5.7, 6, 9.32); //--> 저장O
+        // List<Object> tempoList = Arrays.asList(2, 4.24, 5.7, "6.2", 9.32); //--> 저장X
+        // Double tempoList = 4.21; //--> 저장X
+        List<Double> tempoList = Arrays.asList(2.0, 4.24, 5.7, 6.91, 9.32); //--> 저장O
+        workoutDetailJosnMap.put("tempo", tempoList);
+
         
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();

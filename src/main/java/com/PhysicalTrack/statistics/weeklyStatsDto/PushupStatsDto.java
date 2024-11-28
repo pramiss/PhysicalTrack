@@ -1,4 +1,4 @@
-package com.PhysicalTrack.statistics.dto;
+package com.PhysicalTrack.statistics.weeklyStatsDto;
 
 import java.time.LocalDate;
 

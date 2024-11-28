@@ -1,5 +1,6 @@
 package com.PhysicalTrack.statistics;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,29 +18,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class StatisticsControllerTestOther {
+class StatisticsControllerTestDailyStats {
 
 	@Autowired
     private MockMvc mockMvc;
-
-    @Test
-    public void test() throws Exception {
-    	
+	
+	@Test
+	void test() throws Exception {
     	// object Mapper
     	ObjectMapper objectMapper = new ObjectMapper();
     	
         // body JSON
         Map<String, Object> jsonMap = new HashMap<>();
         
-    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NTgzMSwiZXhwIjoxNzMxMjQ1MDMxfQ.62nZn-AGjZZOieUJf0mWhvaC0WrTbC8anc9GUQ75Vgw";
+    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
         String json = objectMapper.writeValueAsString(jsonMap);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/statistics/weekly-stats/2")
+        int userId = 3;
+        String date = "2024-11-28";
+        
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/statistics/daily-stats/" + userId + "/" + date)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .content(json))
         		.andDo(MockMvcResultHandlers.print());
-        
-    }
+	}
 
 }

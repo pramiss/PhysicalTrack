@@ -1,9 +1,9 @@
 package com.PhysicalTrack.records;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.PhysicalTrack.records.dto.Record;
@@ -42,8 +42,24 @@ public class RecordService {
 		return recordRepository.findMonthlyPushupRecordsByWorkoutId(workoutId, oneMonthAgo);
 	}
 	
-	// 일주일간 Pushup Record 목록을 가져온다.
+	/**
+	 * (일주일간) Pushup Record 목록을 가져온다
+	 * @param workoutId
+	 * @param userId
+	 * @param oneWeekAgo
+	 * @return List<Record>
+	 */
 	public List<Record> getWeeklyPushupRecordsByWorkoutIduserId(Integer workoutId, Integer userId, LocalDateTime oneWeekAgo) {
 		return recordRepository.findWeeklyPushupRecordsByWorkoutIduserId(workoutId, userId, oneWeekAgo);
+	}
+	
+	/**
+	 * (하루) Pushup Record를 가져온다
+	 * @param userId
+	 * @param date
+	 * @return Record
+	 */
+	public Record getDailyPushupRecordByUserIdAndDate(Integer workoutId, Integer userId, LocalDate date) {
+		return recordRepository.findDailyPushupRecordByUserIdDate(workoutId, userId, date);
 	}
 }
