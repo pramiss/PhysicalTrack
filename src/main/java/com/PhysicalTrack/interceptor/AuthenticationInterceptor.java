@@ -37,7 +37,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 	        return true;
 	    }
 		
-		log.info(">>>>> Request Method: {}, URL: {} <<<<<", request.getMethod(), request.getRequestURL());
+		log.info("\n========================================================================"
+    			+ "\n Request Method: {}, URL: {}"
+    			+ "\n========================================================================", request.getMethod(), request.getRequestURL());
 		
 		// (0. 로그인/회원가입 api 은 예외)
 		
@@ -74,6 +76,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, 
 	    Object handler, ModelAndView modelAndView) throws Exception {
 	    
-	    log.info("<<<<< Response Status: {} >>>>>", response.getStatus());
+		log.info("\n========================================================================"
+    			+ "\n Response Status: {}"
+    			+ "\n========================================================================", response.getStatus());
 	}
 }
