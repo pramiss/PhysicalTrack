@@ -29,8 +29,12 @@ public class BatchJob {
 	public void updateConsistencyStreakCount() {
 		LocalDateTime today = LocalDateTime.now(ZoneId.of("Asia/Seoul")).truncatedTo(ChronoUnit.SECONDS);
     	
-    	log.info("-------- BatchJob: {} CONSISTENCY streak_count UPDATE starting... --------", today);
+    	log.info("\n--------------------------------------------------------------------------"
+    			+ "\n BatchJob: {} CONSISTENCY streak_count UPDATE starting..."
+    			+ "\n--------------------------------------------------------------------------", today);
 		consistencyService.updateStreakCount();
-		log.info("-------- BatchJob: {} CONSISTENCY streak_count UPDATE complete..! --------", today);
+    	log.info("\n--------------------------------------------------------------------------"
+    			+ "\n BatchJob: {} CONSISTENCY streak_count UPDATE complete..!"
+    			+ "\n--------------------------------------------------------------------------", today);
 	}
 }

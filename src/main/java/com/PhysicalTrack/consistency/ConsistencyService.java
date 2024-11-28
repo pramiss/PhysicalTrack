@@ -59,8 +59,8 @@ public class ConsistencyService {
 	 */
 	public void updateStreakCount() {
 		
-		// field: 오늘날짜
-		LocalDate baseline = LocalDate.now(ZoneId.of("Asia/Seoul"));
+		// baseline: 어제날짜
+		LocalDate baseline = LocalDate.now(ZoneId.of("Asia/Seoul")).minusDays(1);
 		
 		// `consistency`의 모든 튜플들을 불러온다.
 		List<Consistency> consistencyList = consistencyRepository.findAll();
@@ -72,10 +72,12 @@ public class ConsistencyService {
 			
 			// 일치한다면 'streak_count' + 1
 			if (flag) {
+				log.info("\n $$$$$$$ [userId: {}, streakCount++]", consistency.getUserId());
 				streakCount++;
 			}
 			// 일치하지 않는다면 reset: 0
 			else {
+				log.info("\n $$$$$$$ [userId: {}, streakCount reset]", consistency.getUserId());
 				streakCount = 0;
 			}
 			
