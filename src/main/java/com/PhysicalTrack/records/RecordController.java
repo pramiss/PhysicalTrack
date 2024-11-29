@@ -1,9 +1,9 @@
 package com.PhysicalTrack.records;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,7 @@ import com.PhysicalTrack.consistency.ConsistencyService;
 import com.PhysicalTrack.records.dto.RecordDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,12 +45,56 @@ public class RecordController {
 	 * @return
 	 */
 	@PostMapping("/pushup")
-	public ResponseEntity<?> recordPushup(@RequestBody RecordDto recordDto
+	public ResponseEntity<?> recordPushup(@RequestBody JsonNode requestBody
 			, HttpServletRequest request) {
-		// 0. RecordDto 완성
-		recordDto.setUserId((Integer) request.getAttribute("userId"));
 		
-		// 1. pushup - Validation (필수: quantity, 선택: tempo)
+		log.info("\n-------- requestBody : {}", requestBody.toString());
+		
+		// 변수 받기
+		int userId = (Integer) request.getAttribute("userId");
+		int workoutId = 1;
+		
+		// TODO 예외처리 -- 업뎃 후 삭제 예정
+		if(requestBody.get("workoutDetail") != null) {
+			log.info("\n-------- Dispatched attribute : workoutDetail");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                .body(new ResponseDto<>(400, "Dispatched attribute : workoutDetail -- API 명세를 확인해주세요.", null));
+		}
+		
+		
+		
+		// TODO 나중엔 quantity, tempo 따로 저장
+		int quantity = requestBody.get("quantity").asInt();
+		List<Double> tempoList = new ArrayList<>();
+		try {
+			tempoList = new ArrayList<>();
+		    JsonNode tempoArray = requestBody.get("tempo");
+		    for (JsonNode tempo : tempoArray) {
+		        tempoList.add(tempo.asDouble());
+		    }
+		} catch (Exception e) {
+			log.info("\n-------- No Tempo Data");
+		}
+		
+		
+		log.info("\n-------- tempoList : {}", tempoList);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("quantity", quantity);
+		map.put("tempo", tempoList);
+
+		String jsonString = null;
+		try {
+			jsonString = objectMapper.writeValueAsString(map);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// 0. RecordDto 완성
+		RecordDto recordDto = new RecordDto(userId, workoutId, jsonString);
+		
+		
 		
 		Map<String, Object> workoutDetail;
 		try {
@@ -59,8 +104,11 @@ public class RecordController {
 	                .body(new ResponseDto<>(400, "workoutDetail must be **JSON String**", null));
 		}
 		
-		log.info("################ workoutDetail: {}", workoutDetail.toString());
+		log.info("\n################ workoutDetail: {}", workoutDetail.toString());
 		
+		/*
+		
+		// 1. pushup - Validation (필수: quantity, 선택: tempo)
 		// pushup quanitity 검사: not null, type check
 		Object quantityObj = workoutDetail.get("quantity");
 		if (quantityObj == null) {
@@ -86,6 +134,8 @@ public class RecordController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 		            .body(new ResponseDto<>(400, "Mismatch type workoutDetail key: **tempo**", null));
 		}
+		
+		*/
 		
 		// 2. pushup 데이터 저장 (by RecordDto)
 		recordService.addRecord(recordDto);

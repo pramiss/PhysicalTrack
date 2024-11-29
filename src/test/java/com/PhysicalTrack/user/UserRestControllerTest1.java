@@ -1,5 +1,6 @@
 package com.PhysicalTrack.user;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -20,11 +20,16 @@ class UserRestControllerTest1 {
     @Test // sign-up 테스트
     public void testSignUp() throws Exception {
     	
-        String json = "{\"deviceId\":\"device123456789\",\"name\":\"홍길동\",\"birthYear\":1996,\"gender\":\"male\"}";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("deviceId", "device16889");
+        jsonObject.put("name", "홍길동");
+        jsonObject.put("birthYear", 1996);
+        jsonObject.put("gender", "male");
+    	
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/user/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
+                .content(jsonObject.toString()))
         		.andDo(MockMvcResultHandlers.print());
         
     }

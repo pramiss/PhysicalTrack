@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @Getter
 public class RecordDto {
-	private Integer userId;
-	private Integer workoutId;
-	private String workoutDetail;
+	private Integer userId; // token에서 받기
+	private Integer workoutId; // controller에서 설정
+	private String workoutDetail; // frontend에서 받은 것 취합해서 JSON 저장
 }

@@ -1,9 +1,7 @@
 package com.PhysicalTrack.record;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -28,35 +26,23 @@ class RecordRestControllerTest {
     @Test
     public void testPushupRecord() throws Exception {
     	
-    	// object Mapper
-    	ObjectMapper objectMapper = new ObjectMapper();
-    	
-    	// workoutDetail JSON
-        Map<String, Object> workoutDetailJosnMap = new HashMap<>();
-        workoutDetailJosnMap.put("quantity", 34);
+    	// ObjectMapper 사용
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> request = new HashMap<>();
         
-        // List<Double> tempoList = new ArrayList<>(); //--> 저장O
-        // List<Integer> tempoList = Arrays.asList(2, 4, 5, 6, 9); //--> 저장O
-        // List<Object> tempoList = Arrays.asList(2, 4.24, 5.7, 6, 9.32); //--> 저장O
-        // List<Object> tempoList = Arrays.asList(2, 4.24, 5.7, "6.2", 9.32); //--> 저장X
-        // Double tempoList = 4.21; //--> 저장X
-        List<Double> tempoList = Arrays.asList(2.0, 4.24, 5.7, 6.91, 9.32); //--> 저장O
-        workoutDetailJosnMap.put("tempo", tempoList);
-
+        request.put("quantity", 40);
+        request.put("tempo", Arrays.asList(0.3, 1.32, 2.5));
+        // request.put("workoutDetail", "sdfsdfsd");
         
-        // body JSON
-        Map<String, Object> jsonMap = new HashMap<>();
-        jsonMap.put("workoutId", 1);
-        jsonMap.put("workoutDetail", objectMapper.writeValueAsString(workoutDetailJosnMap));
-    	
-
+        String content = objectMapper.writeValueAsString(request);
+        
+        // token
     	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
-        String json = objectMapper.writeValueAsString(jsonMap);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/record/pushup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                .content(json))
+                .content(content))
         		.andDo(MockMvcResultHandlers.print());
         
     }
