@@ -56,9 +56,9 @@ public class RecordController {
 		
 		// TODO 예외처리 -- 업뎃 후 삭제 예정
 		if(requestBody.get("workoutDetail") != null) {
-			log.info("\n-------- Dispatched attribute : workoutDetail");
+			log.info("\n-------- Deprecated attribute : workoutDetail");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                .body(new ResponseDto<>(400, "Dispatched attribute : workoutDetail -- API 명세를 확인해주세요.", null));
+	                .body(new ResponseDto<>(400, "Deprecated attribute : workoutDetail -- API 명세를 확인해주세요.", null));
 		}
 		
 		
