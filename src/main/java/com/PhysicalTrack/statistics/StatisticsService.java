@@ -56,14 +56,18 @@ public class StatisticsService {
 	    for (Record record : records) {
 	        int quantity = objectMapper.readTree(record.getWorkoutDetail()).get("quantity").asInt();
 	        
-	        LocalDate recordDate = record.getCreatedAt().toLocalDate();
+	        LocalDateTime createdAt = record.getCreatedAt();
+	        LocalDate recordDate = createdAt.toLocalDate();
+	        
 	        PushupStatsDto newDto = PushupStatsDto.builder()
 	                                             .date(recordDate)
+	                                             .createdAt(createdAt)
 	                                             .quantity(quantity)
 	                                             .build();
 	        
 	        pushupStatsMap.compute(recordDate, (date, existingDto) -> 
-	            existingDto == null || existingDto.getQuantity() < quantity ? newDto : existingDto
+        		existingDto == null || existingDto.getCreatedAt().isBefore(record.getCreatedAt()) 
+        		? newDto : existingDto
 	        );
 	    }
 	    
