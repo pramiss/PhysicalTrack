@@ -1,4 +1,6 @@
-package com.PhysicalTrack.ranking;
+package com.PhysicalTrack.account;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,32 +17,34 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
-class RankingControllerTestPushup {
+class AccountControllerTestUpdate {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Test // pushup ranking 가져오기
-    public void testPushupRanking() throws Exception {
-    	
-    	// object Mapper
-    	ObjectMapper objectMapper = new ObjectMapper();
-    	
-        // body JSON
-        Map<String, Object> jsonMap = new HashMap<>();
+	
+	@Test
+	void test() throws Exception {
+		
+    	// ObjectMapper 사용
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> request = new HashMap<>();
         
-    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
-        String json = objectMapper.writeValueAsString(jsonMap);
+        request.put("name", "피글렛");
+        request.put("birthYear", 1990);
+        request.put("gender", "male");
+        
+        String content = objectMapper.writeValueAsString(request);
+        
+        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/ranking/pushup")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/account/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                .content(json))
+                .content(content))
         		.andDo(MockMvcResultHandlers.print());
-        
-    }
-
+	}
 
 }

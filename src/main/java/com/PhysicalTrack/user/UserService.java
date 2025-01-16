@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.PhysicalTrack.account.dto.AccountDto;
 import com.PhysicalTrack.user.dto.User;
 import com.PhysicalTrack.user.dto.UserDto;
 
@@ -72,6 +74,26 @@ public class UserService {
 	 */
 	public String getUserNameByUserId(int userId) {
 		return userRepository.findById(userId).orElse(null).getName();
+	}
+	
+	/**
+	 * 유저 정보 수정 API
+	 * @param accountDto -- AccountController
+	 */
+	@Transactional
+	public void updateUser(AccountDto accountDto) {
+		// 기존 User
+		User exisingUser = userRepository.findById(accountDto.getUserId()).orElse(null);
+		
+		// 업데이트 User
+		User updatedUser = exisingUser.toBuilder()
+									.name(accountDto.getName())
+									.gender(accountDto.getGender())
+									.birthYear(accountDto.getBirthYear())
+									.build();
+		
+		// 업데이트 반영
+		userRepository.save(updatedUser);
 	}
 	
 	// test code
