@@ -1,7 +1,5 @@
 package com.PhysicalTrack.account;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,8 +30,8 @@ class AccountControllerTestUpdate {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> request = new HashMap<>();
         
-        request.put("name", "피글렛");
-        request.put("birthYear", 1990);
+        request.put("name", "라민 야말");
+        request.put("birthYear", 2007);
         request.put("gender", "male");
         
         String content = objectMapper.writeValueAsString(request);

@@ -103,4 +103,12 @@ public class ConsistencyService {
 		return consistencyDtos;
 	} //-- getConsistencyDtos
 	
+	/**
+	 * 회원탈퇴 - 꾸준함 삭제 API
+	 * @param userId
+	 */
+	public void deleteConsistency(int userId) {
+		consistencyRepository.deleteByUserId(userId);
+	}
+	
 } //-- ConsistencyService

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,20 +24,27 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class AccountController {
 
-	private final UserService userService;
+	private final AccountService accountService;
 	
-	public AccountController(UserService userService) {
-		this.userService = userService;
+	public AccountController(AccountService accountService) {
+		this.accountService = accountService;
 	}
 	
-	// 회원 정보 수정 API
+	// 회원 정보 불러오기 API
+	
+	/**
+	 * 회원 정보 수정 API
+	 * @param requestBody
+	 * @param request
+	 * @return
+	 */
 	@PutMapping("/update")
 	public ResponseEntity<?> updateAccount(@RequestBody JsonNode requestBody, HttpServletRequest request) {
 		
-		log.info("\n-------- requestBody : {}", requestBody.toString()); // ok
+		log.info("\n-------- requestBody : {}", requestBody.toString());
 
 		// Get fields.
-		int userId = (Integer) request.getAttribute("userId"); // ok
+		int userId = (Integer) request.getAttribute("userId");
 		String name;
 		String gender;
 		int birthYear;
@@ -49,19 +58,6 @@ public class AccountController {
 					.body(new ResponseDto<>(400, "name, gender, birthYear 데이터를 모두 보내주세요.", null));
 		}
 		
-		// Validation.
-		if (name.length() > 64) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseDto<>(400, "이름이 64자리를 초과합니다.", null));
-		}
-		if (birthYear < 1900 || birthYear > 2100) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseDto<>(400, "출생년도 범위오류: {1900 < birthYear < 2100}", null));
-		}
-		if (!List.of("male", "female").contains(gender)) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseDto<>(400, "성별은 (male/female)만 가능합니다.", null));
-		}
 		
 		// AccountDto 구성
 		AccountDto accountDto = AccountDto.builder()
@@ -74,16 +70,30 @@ public class AccountController {
 		log.info("\n-------- accountDto : {}", accountDto.toString());
 		
 		// records 테이블에 있는 userId에 해당하는 데이터를 수정
-		userService.updateUser(accountDto);
+		ResponseDto<?> responseDto = accountService.updateAccount(accountDto);
 		
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(new ResponseDto<>(200, "update account api", null));
+		// 완료
+		if (responseDto.getStatus() != 200) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+		}
+		
 	}
 	
 	
 	// 회원 탈퇴
-//	@DeleteMapping("/delete")
-//	public ResponseEntity<?> deleteAccount() {
-//		// users, records, consistency 모두 삭제
-//	}
+	@DeleteMapping("/delete")
+	public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
+		
+		// field
+		int userId = (Integer) request.getAttribute("userId");
+		
+		// users, records, consistency 모두 삭제 -> Account Service 레이어에 위임
+		accountService.deleteAccount(userId);
+		
+		// 삭제 후 jwt 처리에 대해서도 고민해야함.
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ResponseDto<>(200, "delete account api 완료", null));
+	}
 }

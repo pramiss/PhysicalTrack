@@ -30,7 +30,7 @@ class RecordRestControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> request = new HashMap<>();
         
-        request.put("quantity", 40);
+        request.put("quantity", 72);
         request.put("tempo", Arrays.asList(0.3, 1.32, 2.5));
         // request.put("workoutDetail", "sdfsdfsd");
         

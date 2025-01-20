@@ -80,7 +80,6 @@ public class UserService {
 	 * 유저 정보 수정 API
 	 * @param accountDto -- AccountController
 	 */
-	@Transactional
 	public void updateUser(AccountDto accountDto) {
 		// 기존 User
 		User exisingUser = userRepository.findById(accountDto.getUserId()).orElse(null);
@@ -94,6 +93,14 @@ public class UserService {
 		
 		// 업데이트 반영
 		userRepository.save(updatedUser);
+	}
+	
+	/**
+	 * 회원탈퇴 - 유저 삭제 API
+	 * @param userId
+	 */
+	public void deleteUser(int userId) {
+		userRepository.deleteById(userId);
 	}
 	
 	// test code

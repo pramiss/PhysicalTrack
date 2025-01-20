@@ -68,6 +68,15 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 		request.setAttribute("deviceId", claims.get("deviceId"));
 		request.setAttribute("name", claims.get("name"));
 		
+		// 4. 사용불가능한 회원의 JWT - (예외) 탈퇴한 회원의 jwt인 경우
+		if (authService.isAvailableUserToken((String)claims.get("deviceId")) == false) {
+			response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            response.setContentType("application/json;charset=UTF-8");
+            objectMapper.writeValue(response.getWriter(), new ResponseDto<>(406, "탈퇴한 회원의 Jwt. 회원가입 필요.", null));
+			return false;
+		}
+		
+		
 		return true;
 	}
 	

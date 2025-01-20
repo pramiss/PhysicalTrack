@@ -31,4 +31,7 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 			@Param("workoutId") Integer workoutId,
 			@Param("userId") Integer userId,
 			@Param("date") LocalDate date);
+	
+	// 회원탈퇴 - 기록 삭제(전부)
+	void deleteByUserId(int userId);
 }

@@ -51,4 +51,9 @@ public class AuthService {
 		return jwtTokenProvider.getTokenClaims(token);
 	}
 	
+	// 회원 유효성 확인 (ex. 탈퇴한 회원의 JWT)
+	public boolean isAvailableUserToken(String deviceId) {
+		return userService.getUserByDeviceId(deviceId) != null ? true : false;
+	}
+	
 }

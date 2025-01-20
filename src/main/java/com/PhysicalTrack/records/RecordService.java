@@ -62,4 +62,12 @@ public class RecordService {
 	public Record getDailyPushupRecordByUserIdAndDate(Integer workoutId, Integer userId, LocalDate date) {
 		return recordRepository.findDailyPushupRecordByUserIdDate(workoutId, userId, date);
 	}
+	
+	/**
+	 * 회원탈퇴 - 기록 삭제(전부) API
+	 * @param userId
+	 */
+	public void deleteRecords(int userId) {
+		recordRepository.deleteByUserId(userId);
+	}
 }
