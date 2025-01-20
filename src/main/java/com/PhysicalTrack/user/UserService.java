@@ -77,8 +77,8 @@ public class UserService {
 	}
 	
 	/**
-	 * 유저 정보 수정 API
-	 * @param accountDto -- AccountController
+	 * 마이페이지:: 유저 정보 수정 API -- AccountService
+	 * @param accountDto 
 	 */
 	public void updateUser(AccountDto accountDto) {
 		// 기존 User
@@ -96,11 +96,23 @@ public class UserService {
 	}
 	
 	/**
-	 * 회원탈퇴 - 유저 삭제 API
+	 * 마이페이지:: 회원탈퇴(유저삭제) API -- AccountService
 	 * @param userId
 	 */
 	public void deleteUser(int userId) {
 		userRepository.deleteById(userId);
+	}
+	
+	// 마이페이지:: 회원정보 조회 API -- AccountService
+	public UserDto getUserById(int userId) {
+		User user = userRepository.findById(userId).orElse(null);
+		UserDto userDto = null;
+		
+		if (user != null) {
+			userDto = new UserDto(user.getUserId(), user.getDeviceId(), user.getName(), user.getGender(), user.getBirthYear());
+		}
+		
+		return userDto;
 	}
 	
 	// test code

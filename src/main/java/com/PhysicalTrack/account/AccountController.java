@@ -1,7 +1,5 @@
 package com.PhysicalTrack.account;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.PhysicalTrack.account.dto.AccountDto;
 import com.PhysicalTrack.common.ResponseDto;
-import com.PhysicalTrack.user.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +27,25 @@ public class AccountController {
 		this.accountService = accountService;
 	}
 	
-	// 회원 정보 불러오기 API
+	/**
+	 * 회원 정보 불러오기 API
+	 * @param request
+	 * @return
+	 */
+	@GetMapping("/info")
+	public ResponseEntity<?> getAccountInfo(HttpServletRequest request) {
+		
+		int userId = (Integer) request.getAttribute("userId");
+		
+		// user id로 회원정보 불러오기
+		AccountDto accountDto = accountService.getAccountInfo(userId);
+		
+		log.info("\n####### accountDto : {}", accountDto);
+		
+		// 완료
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ResponseDto<>(200, "회원 정보 불러오기 API 완료", accountDto));
+	}
 	
 	/**
 	 * 회원 정보 수정 API

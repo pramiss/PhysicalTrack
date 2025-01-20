@@ -12,6 +12,7 @@ import com.PhysicalTrack.common.ResponseDto;
 import com.PhysicalTrack.consistency.ConsistencyService;
 import com.PhysicalTrack.records.RecordService;
 import com.PhysicalTrack.user.UserService;
+import com.PhysicalTrack.user.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,33 @@ public class AccountService {
 	public final ConsistencyService consistencyService;
 	
 	
-	// 회원정보수정 API - userService
+	/**
+	 * 회원정보 불러오기 API - userService
+	 * @param userId
+	 * @return
+	 */
+	public AccountDto getAccountInfo(int userId) {
+		
+		// User Service에서 유저정보 가져오기
+		UserDto userDto = userService.getUserById(userId);
+		
+		// UserDto -> AccountDto 변환
+		AccountDto accountDto = AccountDto.builder()
+										.userId(userId)
+										.gender(userDto.getGender())
+										.name(userDto.getName())
+										.birthYear(userDto.getBirthYear())
+										.build();
+		
+		// 반환
+		return accountDto;
+	}
+	
+	/**
+	 * 회원정보수정 API - userService
+	 * @param accountDto
+	 * @return
+	 */
 	@Transactional
 	public ResponseDto<?> updateAccount(AccountDto accountDto) {
 		// Validation.
@@ -60,7 +87,6 @@ public class AccountService {
 		// users 삭제 - UserService
 		log.info("\n-------- userService.deleteUser start");
 		userService.deleteUser(userId);
-		
 		
 		// records 삭제 - RecordService
 		log.info("\n-------- recordService.deleteUser start");
