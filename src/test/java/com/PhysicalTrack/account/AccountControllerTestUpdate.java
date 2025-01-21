@@ -30,15 +30,15 @@ class AccountControllerTestUpdate {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> request = new HashMap<>();
         
-        request.put("name", "라민 야말");
-        request.put("birthYear", 2007);
-        request.put("gender", "male");
+        request.put("name", "클리어");
+        request.put("birthYear", 2001);
+        request.put("gender", "female");
         
         String content = objectMapper.writeValueAsString(request);
         
         String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/account/update")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/account")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .content(content))

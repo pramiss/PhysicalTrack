@@ -22,7 +22,7 @@ class AccountControllerTestInfo {
 
 		String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
 		
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/account/info")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/account")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
         		.andDo(MockMvcResultHandlers.print());

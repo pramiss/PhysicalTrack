@@ -24,7 +24,7 @@ class AccountControllerTestDelete {
 		
 		String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImF1dHVtbldpdGhDb21wb3NlMTIzMTIiLCJ1c2VySWQiOjMsIm5hbWUiOiLrsLDsp4TtlZgiLCJpYXQiOjE3MzcxODcyNTYsImV4cCI6MTczNzQ0NjQ1Nn0.N5EHqMNm3oP3860g0OK1mu8y1LC_ZheLZx6XiNwL8eE";
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/account/delete")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/account")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
         		.andDo(MockMvcResultHandlers.print());

@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/api/account")
 @RestController
 public class AccountController {
 
@@ -32,7 +31,7 @@ public class AccountController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping("/info")
+	@GetMapping("/api/account")
 	public ResponseEntity<?> getAccountInfo(HttpServletRequest request) {
 		
 		int userId = (Integer) request.getAttribute("userId");
@@ -53,7 +52,7 @@ public class AccountController {
 	 * @param request
 	 * @return
 	 */
-	@PutMapping("/update")
+	@PutMapping("/api/account")
 	public ResponseEntity<?> updateAccount(@RequestBody JsonNode requestBody, HttpServletRequest request) {
 		
 		log.info("\n-------- requestBody : {}", requestBody.toString());
@@ -98,7 +97,7 @@ public class AccountController {
 	
 	
 	// 회원 탈퇴
-	@DeleteMapping("/delete")
+	@DeleteMapping("/api/account")
 	public ResponseEntity<?> deleteAccount(HttpServletRequest request) {
 		
 		// field
