@@ -1,6 +1,5 @@
-package com.PhysicalTrack.record;
+package com.PhysicalTrack.records;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,27 +17,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class RecordRestControllerTest {
+class RecordControllerTestRunning {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void testPushupRecord() throws Exception {
+    public void testRunningRecord() throws Exception {
     	
     	// ObjectMapper 사용
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> request = new HashMap<>();
         
-        request.put("quantity", 55);
-        request.put("tempo", Arrays.asList(0.3, 1.32, 2.5, 0.3, 1.32, 2.5));
+        request.put("duration", 1242.31);
+        // request.put("tempo", Arrays.asList(0.3, 1.32, 2.5));
         
         String content = objectMapper.writeValueAsString(request);
         
         // token
-    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6InNsZGZrajAzZGQxIiwidXNlcklkIjo3LCJuYW1lIjoi6rmA7Yag7J21IiwiaWF0IjoxNzM4NzQ4Njc3LCJleHAiOjE3MzkwMDc4Nzd9.3AaKNObbf9KvHHwOxDDAd2w9uUiEaLf69zhXRMhuE0M";
+    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/record/pushup")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/record/running")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .content(content))

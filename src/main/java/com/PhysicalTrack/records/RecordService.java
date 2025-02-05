@@ -33,13 +33,13 @@ public class RecordService {
 	}
 	
 	/**
-	 * (한달간의) PushUp Record 목록을 가져온다
+	 * (한달간의) WorkoutId Record 목록을 가져온다
 	 * @param workoutId
 	 * @param oneMonthAgo
 	 * @return
 	 */
-	public List<Record> getMonthlyPushupRecordsByWorkoutId(Integer workoutId, LocalDateTime oneMonthAgo) {
-		return recordRepository.findMonthlyPushupRecordsByWorkoutId(workoutId, oneMonthAgo);
+	public List<Record> getMonthlyRecordsByWorkoutId(Integer workoutId, LocalDateTime oneMonthAgo) {
+		return recordRepository.findMonthlyRecordsByWorkoutId(workoutId, oneMonthAgo);
 	}
 	
 	/**

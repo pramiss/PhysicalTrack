@@ -12,6 +12,7 @@ import com.PhysicalTrack.consistency.ConsistencyService;
 import com.PhysicalTrack.consistency.dto.ConsistencyDto;
 import com.PhysicalTrack.ranking.dto.ConsistencyRankingDto;
 import com.PhysicalTrack.ranking.dto.PushupRankingDto;
+import com.PhysicalTrack.ranking.dto.RunningRankingDto;
 import com.PhysicalTrack.records.RecordService;
 import com.PhysicalTrack.records.dto.Record;
 import com.PhysicalTrack.user.UserService;
@@ -51,7 +52,7 @@ public class RankingService {
 		int workoutId = 1; // pushup
 		
 		// 1. 최근 한달 동안의 pushup 기록을 가져온다. (workoutId = 1)
-		List<Record> records = recordService.getMonthlyPushupRecordsByWorkoutId(workoutId, oneMonthAgo);
+		List<Record> records = recordService.getMonthlyRecordsByWorkoutId(workoutId, oneMonthAgo);
 		
 		// 2. List<Record> -> List<PushupRankingDto> : userId마다 quantity가 가장 큰 것만.
 		for (Record record : records) {
@@ -99,7 +100,75 @@ public class RankingService {
 		return pushupRankingDtos;
 	} //-- getMonthlyPushupRanking
 	
-	// Consistency Ranking 가져오기
+	
+	/**
+	 * Running Ranking 가져오기 (지난 1달)
+	 * @return
+	 * @throws JsonProcessingException 
+	 * @throws JsonMappingException 
+	 */
+	public List<RunningRankingDto> getMonthlyRunningRanking() throws JsonMappingException, JsonProcessingException {
+		
+		// 0. sql setting (workoutId, createdAt)
+		List<RunningRankingDto> runningRankingDtos = new ArrayList<>();
+		LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+		int workoutId = 3; // running
+		
+		// 1. 최근 한달 동안의 running 기록을 가져온다. (workoutId = 3)
+		List<Record> records = recordService.getMonthlyRecordsByWorkoutId(workoutId, oneMonthAgo);
+		
+		// 2. List<Record> -> List<RunningRankingDto> : userId마다 duration이 작은 것만.
+		for (Record record : records) {
+			// userId, quantity
+			int userId = record.getUserId();
+			double duration = objectMapper.readTree(record.getWorkoutDetail()).get("duration").asDouble();
+			
+			// 0) userId에 해당하는 dto 존재확인
+			RunningRankingDto runningRankingDto = runningRankingDtos.stream()
+											    .filter(dto -> dto.getUserId().equals(userId))
+											    .findFirst().orElse(null);
+			
+			if (runningRankingDto == null) { // 1) 새로운 userId의 경우 -> new RunningRankingDto()로 dto 리스트에 추가
+				runningRankingDtos.add(new RunningRankingDto(userId, duration));
+			} else if (duration < runningRankingDto.getDuration()) {  // 2) userId 존재 + duration < 기존 : update
+				runningRankingDto.setDuration(duration);
+			}
+
+			// 3) userId 존재 + duration > 기존 : continue
+			
+		}
+		
+		// 3. duration 오름차순 정렬
+		runningRankingDtos.sort((a, b) -> a.getDuration().compareTo(b.getDuration()));
+
+		// 4. userId에 맞는 set name 및 set rank
+		
+		// 1) userId 목록 추출
+		List<Integer> userIds = runningRankingDtos.stream()
+		    .map(RunningRankingDto::getUserId)
+		    .collect(Collectors.toList());
+
+		// 2) 모든 사용자 정보 조회
+		Map<Integer, String> userNameMap = userService.getUserNamesByIds(userIds);
+
+		// 3) 메모리에서 매핑
+		int rank = 1;
+		for (RunningRankingDto dto : runningRankingDtos) {
+		    dto.setName(userNameMap.get(dto.getUserId()));
+		    dto.setRank(rank++);
+		}
+		
+		// 5. return
+		log.info("@@@@@@@@ {runningRankingDtos} : " + runningRankingDtos);
+		return runningRankingDtos;
+		
+	} //-- getMonthlyRunningRanking
+	
+	
+	/**
+	 * Consistency Ranking 가져오기
+	 * @return
+	 */
 	public List<ConsistencyRankingDto> getConsistencyRanking() {
 		
 		// 1. consistency service 에서 ConsistencyDto 리스트를 가져온다.

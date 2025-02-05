@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.PhysicalTrack.common.ResponseDto;
 import com.PhysicalTrack.ranking.dto.ConsistencyRankingDto;
 import com.PhysicalTrack.ranking.dto.PushupRankingDto;
+import com.PhysicalTrack.ranking.dto.RunningRankingDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,10 +28,9 @@ public class RankingController {
 		this.rankingService = rankingService;
 	}
 	
-
 	
 	/**
-	 * Pushup Ranking 가져오는 API
+	 * Pushup Ranking API
 	 * @param request
 	 * @return
 	 */
@@ -52,6 +52,27 @@ public class RankingController {
 		// return 200
 		return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto<>(200, "Pushup Raking 조회 성공", pushupRankingList));
+	}
+	
+	// Running Ranking API
+	@GetMapping("/running")
+	public ResponseEntity<?> getRunningRanking(HttpServletRequest request) {
+		
+		// 0. data field
+		List<RunningRankingDto> runningRankingList = null;
+
+		// 1. running ranking 조회
+		try {
+			runningRankingList = rankingService.getMonthlyRunningRanking();
+		} catch (JsonProcessingException e) {
+			log.error("DB 확인 요망: JsonProcessingException {workoutDetail : duration} in running");
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+	                .body(new ResponseDto<>(422, "DB 확인 요망: JsonProcessingException {workoutDetail : duration} in Running", null));
+		}
+		
+		// return 200
+		return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto<>(200, "Running Raking 조회 성공", runningRankingList));
 	}
 	
 	// Consistency Ranking API

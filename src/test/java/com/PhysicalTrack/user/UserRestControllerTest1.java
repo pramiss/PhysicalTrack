@@ -21,9 +21,9 @@ class UserRestControllerTest1 {
     public void testSignUp() throws Exception {
     	
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("deviceId", "device16889");
-        jsonObject.put("name", "홍길동");
-        jsonObject.put("birthYear", 1996);
+        jsonObject.put("deviceId", "sldfkj03dd1");
+        jsonObject.put("name", "김토익");
+        jsonObject.put("birthYear", 2001);
         jsonObject.put("gender", "male");
     	
 

@@ -11,12 +11,12 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = true)
-public class PushupRankingDto extends RankingDto {
+public class RunningRankingDto extends RankingDto {
+
+	private Double duration;
 	
-	private Integer quantity;
-	
-	public PushupRankingDto(int userId, int quantity) {
+	public RunningRankingDto(int userId, double duration) {
 		super(userId);
-		this.quantity = quantity;
+		this.duration = duration;
 	}
 }
