@@ -2,6 +2,7 @@ package com.PhysicalTrack.records;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -10,7 +11,9 @@ import com.PhysicalTrack.records.dto.Record;
 import com.PhysicalTrack.records.dto.RecordDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RecordService {
@@ -22,12 +25,27 @@ public class RecordService {
 	 * @param recordDto
 	 */
 	public void addRecord(RecordDto recordDto) {
-		// 1. RecordDto -> Record
-		Record recordEntity = Record.builder()
-									.userId(recordDto.getUserId())
-									.workoutId(recordDto.getWorkoutId())
-									.workoutDetail(recordDto.getWorkoutDetail())
-									.build();
+		
+		// 1. 기존 (created_at, workout_id) 가 존재하는지 확인 -- created_at은 today
+		int userId = recordDto.getUserId();
+		int workoutId = recordDto.getWorkoutId();
+		LocalDate date = LocalDate.now(); // date는 today
+	    
+		Record recordEntity = recordRepository.findByUserIdAndWorkoutIdAndCreatedAtBetween(userId, workoutId, date);
+		
+		// 2. RecordEntity 완성
+		if (recordEntity == null) {
+			// 2-1. 없다면 -- 새로운 Record 생성, RecordDto -> Record
+			recordEntity = Record.builder()
+								.userId(recordDto.getUserId())
+								.workoutId(recordDto.getWorkoutId())
+								.workoutDetail(recordDto.getWorkoutDetail())
+								.build();
+		} else {
+			// 2-2. 있다면 -- 기존 Record 업데이트
+			recordEntity.setWorkoutDetail(recordDto.getWorkoutDetail());
+		}
+		
 		// 2. Record 저장
 		recordRepository.save(recordEntity);
 	}

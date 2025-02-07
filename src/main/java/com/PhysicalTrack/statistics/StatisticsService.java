@@ -65,16 +65,21 @@ public class StatisticsService {
 	                                             .quantity(quantity)
 	                                             .build();
 	        
-	        pushupStatsMap.compute(recordDate, (date, existingDto) -> 
-        		existingDto == null || existingDto.getCreatedAt().isBefore(record.getCreatedAt()) 
-        		? newDto : existingDto
-	        );
+	        pushupStatsMap.put(recordDate, newDto);
 	    }
 	    
 	    return new ArrayList<>(pushupStatsMap.values());
 	} //-- Get Weekly Pushup Stats
 	
-	// Get Daily Pushup Tempo
+	
+	/**
+	 * Get Daily Pushup Tempo
+	 * @param userId
+	 * @param date
+	 * @return
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 */
 	public List<Double> getDailyPushupTempo(int userId, LocalDate date) throws JsonMappingException, JsonProcessingException {
 		
 		// TODO: record가 null 인경우 / 'tempo' 속성이 없는 경우 -> tempo : []

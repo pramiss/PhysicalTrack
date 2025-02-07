@@ -29,7 +29,7 @@ class RecordControllerTestRunning {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> request = new HashMap<>();
         
-        request.put("duration", 1242.31);
+        request.put("duration", 870.3);
         // request.put("tempo", Arrays.asList(0.3, 1.32, 2.5));
         
         String content = objectMapper.writeValueAsString(request);

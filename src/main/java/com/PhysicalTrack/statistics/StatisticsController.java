@@ -85,8 +85,12 @@ public class StatisticsController {
 	                .body(new ResponseDto<>(422, "DB 확인 요망: JsonProcessingException {workoutDetail : quantity} in Pushup", null));
 		}
 		
-		// TODO: 2. GET: 일주일간 situp data
-		// TODO: 3. GET: 일주일간 running data
+		// TODO: 2. GET: 일주일간 running data
+		
+		
+		
+		
+		// TODO: 3. GET: 일주일간 situp data
 		
 		// data input
 	    data.put("userId", userId);

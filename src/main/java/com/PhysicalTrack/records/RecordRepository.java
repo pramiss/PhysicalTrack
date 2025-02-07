@@ -32,6 +32,15 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 			@Param("userId") Integer userId,
 			@Param("date") LocalDate date);
 	
+	// 날짜에 대한 운동 가져오기
+	@Query(value = "SELECT * FROM records WHERE workout_id = :workoutId AND user_id = :userId AND DATE(created_at) = :date", nativeQuery = true)
+	Record findByUserIdAndWorkoutIdAndCreatedAtBetween(
+			@Param("userId") Integer userId, 
+			@Param("workoutId") Integer workoutId,
+			@Param("date") LocalDate date);
+
+	
+	
 	// 회원탈퇴 - 기록 삭제(전부)
 	void deleteByUserId(int userId);
 }
