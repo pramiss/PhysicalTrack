@@ -12,6 +12,5 @@ import lombok.ToString;
 @Builder
 public class RunningStatsDto {
 	private LocalDate date;
-	private LocalDateTime createdAt;
 	private Double duration;
 }

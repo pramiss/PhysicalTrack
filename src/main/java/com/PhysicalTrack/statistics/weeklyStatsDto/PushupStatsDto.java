@@ -12,6 +12,5 @@ import lombok.ToString;
 @Builder
 public class PushupStatsDto {
 	private LocalDate date;
-	private LocalDateTime createdAt;
 	private Integer quantity;
 }

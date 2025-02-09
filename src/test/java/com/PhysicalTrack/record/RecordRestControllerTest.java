@@ -30,13 +30,13 @@ class RecordRestControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> request = new HashMap<>();
         
-        request.put("quantity", 44);
+        request.put("quantity", 77);
         request.put("tempo", Arrays.asList(0.3, 1.32, 2.5, 0.3, 1.32, 2.5));
         
         String content = objectMapper.writeValueAsString(request);
         
         // token
-    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6InNsZGZrajAzZGQxIiwidXNlcklkIjo3LCJuYW1lIjoi6rmA7Yag7J21IiwiaWF0IjoxNzM4NzQ4Njc3LCJleHAiOjE3MzkwMDc4Nzd9.3AaKNObbf9KvHHwOxDDAd2w9uUiEaLf69zhXRMhuE0M";
+    	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/record/pushup")
                 .contentType(MediaType.APPLICATION_JSON)

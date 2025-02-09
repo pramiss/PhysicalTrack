@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.PhysicalTrack.records.RecordService;
 import com.PhysicalTrack.records.dto.Record;
-import com.PhysicalTrack.statistics.dailyStatsDto.DailyStatsDto;
 import com.PhysicalTrack.statistics.weeklyStatsDto.PushupStatsDto;
+import com.PhysicalTrack.statistics.weeklyStatsDto.RunningStatsDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -48,7 +48,7 @@ public class StatisticsService {
 	    int workoutId = 1;
 	    
 	    // GET -- Weekly Pushup Records By userId 
-	    List<Record> records = recordService.getWeeklyPushupRecordsByWorkoutIduserId(workoutId, userId, oneWeekAgo);
+	    List<Record> records = recordService.getWeeklyRecordsByWorkoutIduserId(workoutId, userId, oneWeekAgo);
 	    
 	    // TreeMap 사용 - 키(LocalDate)를 기준으로 자동 오름차순 정렬
 	    Map<LocalDate, PushupStatsDto> pushupStatsMap = new TreeMap<>();
@@ -56,12 +56,10 @@ public class StatisticsService {
 	    for (Record record : records) {
 	        int quantity = objectMapper.readTree(record.getWorkoutDetail()).get("quantity").asInt();
 	        
-	        LocalDateTime createdAt = record.getCreatedAt();
-	        LocalDate recordDate = createdAt.toLocalDate();
+	        LocalDate recordDate = record.getCreatedAt().toLocalDate();
 	        
 	        PushupStatsDto newDto = PushupStatsDto.builder()
 	                                             .date(recordDate)
-	                                             .createdAt(createdAt)
 	                                             .quantity(quantity)
 	                                             .build();
 	        
@@ -70,6 +68,41 @@ public class StatisticsService {
 	    
 	    return new ArrayList<>(pushupStatsMap.values());
 	} //-- Get Weekly Pushup Stats
+	
+	/**
+	 * Get Weekly Running Stats
+	 * @param userId
+	 * @return
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 */
+	public List<RunningStatsDto> getWeeklyRunningStats(int userId) throws JsonMappingException, JsonProcessingException {
+		
+		// field
+		LocalDateTime oneWeekAgo = LocalDate.now().minusWeeks(1).atStartOfDay();
+	    int workoutId = 3;
+	    
+	    // GET -- Weekly Running Records By userId 
+	    List<Record> records = recordService.getWeeklyRecordsByWorkoutIduserId(workoutId, userId, oneWeekAgo);
+	    
+	    // TreeMap 사용 - 키(LocalDate)를 기준으로 자동 오름차순 정렬
+	    Map<LocalDate, RunningStatsDto> runningStatsMap = new TreeMap<>();
+	    
+	    for (Record record : records) {
+	        double duration = objectMapper.readTree(record.getWorkoutDetail()).get("duration").asDouble();
+	        
+	        LocalDate recordDate = record.getCreatedAt().toLocalDate();
+	        
+	        RunningStatsDto newDto = RunningStatsDto.builder()
+	                                             .date(recordDate)
+	                                             .duration(duration)
+	                                             .build();
+	        
+	        runningStatsMap.put(recordDate, newDto);
+	    }
+	    
+	    return new ArrayList<>(runningStatsMap.values());
+	} //-- Get Weekly Running Stats
 	
 	
 	/**

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.PhysicalTrack.common.ResponseDto;
 import com.PhysicalTrack.statistics.dailyStatsDto.DailyStatsDto;
 import com.PhysicalTrack.statistics.weeklyStatsDto.PushupStatsDto;
+import com.PhysicalTrack.statistics.weeklyStatsDto.RunningStatsDto;
 import com.PhysicalTrack.user.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -34,7 +35,7 @@ public class StatisticsController {
 		this.statisticsService = statisticsService;
 	}
 	
-	/**
+	/** (폐기)
 	 * [통계조회 - Me] Get Weekly Pushup Stats API
 	 * @param request
 	 * @return
@@ -80,13 +81,20 @@ public class StatisticsController {
 		try {
 			pushupStatsDtos = statisticsService.getWeeklyPushupStats(userId);
 		} catch (JsonProcessingException e) {
-			log.error("DB 확인 요망: JsonProcessingException {workoutDetail : quantity} in pushup");
+			log.error("RECORDS DB 확인 요망: JsonProcessingException {workoutDetail} in pushup");
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-	                .body(new ResponseDto<>(422, "DB 확인 요망: JsonProcessingException {workoutDetail : quantity} in Pushup", null));
+	                .body(new ResponseDto<>(422, "RECORDS DB 확인 요망: JsonProcessingException {workoutDetail} in Pushup", null));
 		}
 		
 		// TODO: 2. GET: 일주일간 running data
-		
+		List<RunningStatsDto> runningStatsDtos;
+		try {
+			runningStatsDtos = statisticsService.getWeeklyRunningStats(userId);
+		} catch (JsonProcessingException e) {
+			log.error("RECORDS DB 확인 요망: JsonProcessingException {workoutDetail} in running");
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+	                .body(new ResponseDto<>(422, "RECORDS DB 확인 요망: JsonProcessingException {workoutDetail} in Running", null));
+		}
 		
 		
 		
@@ -96,6 +104,7 @@ public class StatisticsController {
 	    data.put("userId", userId);
 	    data.put("name", name);
 		data.put("pushupStats", pushupStatsDtos);
+		data.put("runningStats", runningStatsDtos);
 		
 		// return
 		return ResponseEntity.status(HttpStatus.OK)

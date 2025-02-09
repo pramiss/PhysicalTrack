@@ -61,14 +61,14 @@ public class RecordService {
 	}
 	
 	/**
-	 * (일주일간) Pushup Record 목록을 가져온다
+	 * (일주일간) Record 목록을 가져온다
 	 * @param workoutId
 	 * @param userId
 	 * @param oneWeekAgo
 	 * @return List<Record>
 	 */
-	public List<Record> getWeeklyPushupRecordsByWorkoutIduserId(Integer workoutId, Integer userId, LocalDateTime oneWeekAgo) {
-		return recordRepository.findWeeklyPushupRecordsByWorkoutIduserId(workoutId, userId, oneWeekAgo);
+	public List<Record> getWeeklyRecordsByWorkoutIduserId(Integer workoutId, Integer userId, LocalDateTime oneWeekAgo) {
+		return recordRepository.getWeeklyRecordsByWorkoutIduserId(workoutId, userId, oneWeekAgo);
 	}
 	
 	/**

@@ -20,7 +20,7 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 
 	// (일주일간) WorkoutId Record 목록을 가져온다
 	@Query("SELECT r FROM Record r WHERE r.workoutId = :workoutId AND r.userId = :userId AND r.createdAt >= :oneWeekAgo ORDER BY r.createdAt ASC")
-	List<Record> findWeeklyPushupRecordsByWorkoutIduserId(
+	List<Record> getWeeklyRecordsByWorkoutIduserId(
 			@Param("workoutId") Integer workoutId, 
 			@Param("userId") Integer userId, 
 			@Param("oneWeekAgo") LocalDateTime oneWeekAgo);
