@@ -113,13 +113,11 @@ public class StatisticsService {
 	 * @throws JsonMappingException
 	 * @throws JsonProcessingException
 	 */
-	public List<Double> getDailyPushupTempo(int userId, LocalDate date) throws JsonMappingException, JsonProcessingException {
+	public List<Double> getDailyWorkoutTempo(int workoutId, int userId, LocalDate date)
+			throws JsonMappingException, JsonProcessingException {
 		
 		// TODO: record가 null 인경우 / 'tempo' 속성이 없는 경우 -> tempo : []
 		// TODO: tempo의 타입이 잘못된 경우 (Double List 형태여야한다) -> Exception
-		
-		// field
-	    int workoutId = 1;
 	    
 	    // GET -- Pushup Record By userId, date
 	    Record record = recordService.getDailyPushupRecordByUserIdAndDate(workoutId, userId, date);

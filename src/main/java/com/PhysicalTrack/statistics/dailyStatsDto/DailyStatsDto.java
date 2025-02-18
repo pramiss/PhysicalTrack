@@ -15,6 +15,6 @@ public class DailyStatsDto {
 	private String name;
 	private LocalDate date;
 	private List<Double> pushupTempo;
+	private List<Double> runningTempo;
 	// TODO: private List<Double> situpTempo;
-	// TODO: private List<Double> runningTempo;
 }

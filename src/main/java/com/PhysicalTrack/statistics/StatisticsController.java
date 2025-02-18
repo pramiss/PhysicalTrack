@@ -67,7 +67,7 @@ public class StatisticsController {
 	}
 	
 	/**
-	 * [통계조회] Get Weekly Pushup Stats API
+	 * [통계조회] Get Weekly Stats API
 	 * @param request
 	 * @return
 	 */
@@ -86,7 +86,7 @@ public class StatisticsController {
 	                .body(new ResponseDto<>(422, "RECORDS DB 확인 요망: JsonProcessingException {workoutDetail} in Pushup", null));
 		}
 		
-		// TODO: 2. GET: 일주일간 running data
+		// 2. GET: 일주일간 running data
 		List<RunningStatsDto> runningStatsDtos;
 		try {
 			runningStatsDtos = statisticsService.getWeeklyRunningStats(userId);
@@ -111,26 +111,44 @@ public class StatisticsController {
 				.body(new ResponseDto<>(200, "Weekly Stats API 조회 성공", data));
 	}
 	
-	// Daily Stats (pace)
+	/**
+	 * [통계조회] Get Daily Stats API
+	 * @param request
+	 * @param userId
+	 * @param date
+	 * @return
+	 */
 	@GetMapping("/daily-stats/{userId}/{date}")
 	public ResponseEntity<?> weeklyStatsOther(HttpServletRequest request, 
 			@PathVariable("userId") Integer userId, @PathVariable("date") LocalDate date) {
 		
 		String name = userService.getUserNameByUserId(userId);
+		int workoutId;
 		
 		// 1. GET: pushup tempo 
 		List<Double> pushupTempo = null;
-		
 		try {
-			pushupTempo = statisticsService.getDailyPushupTempo(userId, date);
+			workoutId = 1;
+			pushupTempo = statisticsService.getDailyWorkoutTempo(workoutId, userId, date);
 		} catch (JsonProcessingException e) {
 			log.error("DB 확인 요망: JsonProcessingException {workoutDetail : tempo} in pushup");
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
 	                .body(new ResponseDto<>(422, "DB 확인 요망: JsonProcessingException {workoutDetail : tempo} in Pushup", null));
 		}
 		
-		// TODO: 2. GET: 일주일간 situp tempo
-		// TODO: 3. GET: 일주일간 running tempo
+		// TODO: 2. GET: 일주일간 running tempo
+		List<Double> runningTempo = null;
+		try {
+			workoutId = 3;
+			runningTempo = statisticsService.getDailyWorkoutTempo(workoutId, userId, date);
+		} catch (JsonProcessingException e) {
+			log.error("DB 확인 요망: JsonProcessingException {workoutDetail : tempo} in running");
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+	                .body(new ResponseDto<>(422, "DB 확인 요망: JsonProcessingException {workoutDetail : tempo} in Running", null));
+		}
+		
+		
+		// TODO: 3. GET: 일주일간 situp tempo
 		
 		// DailyStatsDto input
 	    DailyStatsDto dailyStatsDto = DailyStatsDto.builder()
@@ -138,6 +156,7 @@ public class StatisticsController {
 	    										.name(name)
 	    										.date(date)
 	    										.pushupTempo(pushupTempo)
+	    										.runningTempo(runningTempo)
 	    										.build();
 		
 		// return

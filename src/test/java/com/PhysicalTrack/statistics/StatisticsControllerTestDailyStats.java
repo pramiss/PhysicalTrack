@@ -34,7 +34,7 @@ class StatisticsControllerTestDailyStats {
         String json = objectMapper.writeValueAsString(jsonMap);
 
         int userId = 5;
-        String date = "2024-11-28";
+        String date = "2025-02-18";
         
         mockMvc.perform(MockMvcRequestBuilders.get("/api/statistics/daily-stats/" + userId + "/" + date)
                 .contentType(MediaType.APPLICATION_JSON)

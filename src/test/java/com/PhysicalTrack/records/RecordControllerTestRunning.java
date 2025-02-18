@@ -1,5 +1,6 @@
 package com.PhysicalTrack.records;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ class RecordControllerTestRunning {
         Map<String, Object> request = new HashMap<>();
         
         request.put("duration", 888.3);
-        // request.put("tempo", Arrays.asList(0.3, 1.32, 2.5));
+        request.put("tempo", Arrays.asList(0.3, 1.32, 2.5, 0.3, 1.32, 2.5, 0.3, 1.32, 2.5));
         
         String content = objectMapper.writeValueAsString(request);
         
