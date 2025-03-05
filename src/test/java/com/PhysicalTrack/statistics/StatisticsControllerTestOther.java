@@ -34,7 +34,7 @@ class StatisticsControllerTestOther {
     	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
         String json = objectMapper.writeValueAsString(jsonMap);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/statistics/weekly-stats/5")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/statistics/weekly-stats/8")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .content(json))

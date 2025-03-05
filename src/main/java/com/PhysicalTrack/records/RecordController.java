@@ -143,7 +143,9 @@ public class RecordController {
 			tempoList = new ArrayList<>();
 		    JsonNode tempoArray = requestBody.get("tempo");
 		    for (JsonNode tempo : tempoArray) {
-		        tempoList.add(tempo.asDouble());
+		    	double value = tempo.asDouble();
+		    	double truncated = Math.floor(value * 10) / 10.0;
+		        tempoList.add(truncated);
 		    }
 		} catch (Exception e) {
 			log.info("\n-------- No Tempo Data");

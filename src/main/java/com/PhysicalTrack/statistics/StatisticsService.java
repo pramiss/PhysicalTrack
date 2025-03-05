@@ -106,7 +106,7 @@ public class StatisticsService {
 	
 	
 	/**
-	 * Get Daily Pushup Tempo
+	 * Get Daily Workout Tempo
 	 * @param userId
 	 * @param date
 	 * @return
@@ -119,7 +119,7 @@ public class StatisticsService {
 		// TODO: record가 null 인경우 / 'tempo' 속성이 없는 경우 -> tempo : []
 		// TODO: tempo의 타입이 잘못된 경우 (Double List 형태여야한다) -> Exception
 	    
-	    // GET -- Pushup Record By userId, date
+	    // GET -- Workout Record By userId, date
 	    Record record = recordService.getDailyPushupRecordByUserIdAndDate(workoutId, userId, date);
 
 	    // List<Double> tempo

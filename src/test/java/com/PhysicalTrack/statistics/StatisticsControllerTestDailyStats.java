@@ -33,7 +33,7 @@ class StatisticsControllerTestDailyStats {
     	String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkZXZpY2VJZCI6ImRldmljZTEyMzQ1Njc4OSIsInVzZXJJZCI6NSwibmFtZSI6Iu2Zjeq4uOuPmSIsImlhdCI6MTczMDk4NzMyMywiZXhwIjoxOTkwMTg3MzIzfQ.r_REPaYe8UGXiWJ92Gseo_wp7rSNl5RMtjhxUpYCxXw";
         String json = objectMapper.writeValueAsString(jsonMap);
 
-        int userId = 5;
+        int userId = 8;
         String date = "2025-02-18";
         
         mockMvc.perform(MockMvcRequestBuilders.get("/api/statistics/daily-stats/" + userId + "/" + date)
