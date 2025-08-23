@@ -58,11 +58,11 @@
 ### 🛠️ 기술 스택
 | 개발 | Backend |
 | :---: | :---: |
-| Language | Java |
-| Framework | Spring Boot |
-| Database | MySQL |
-| 배포 | AWS EC2 |
-| 협업 도구 | Github / Notion / Figma |
+| Language | `Java` |
+| Framework | `Spring Boot` |
+| Database | `MySQL` |
+| 배포 | `AWS EC2` |
+| 협업 도구 | `Github` `Notion` `Figma` |
 
 </br>
 </br>
