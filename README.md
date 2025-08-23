@@ -7,8 +7,9 @@
 
 <div align="center">
   <!-- logo -->
-  <img width="45" height="45" alt="physical-track-icon" src="https://github.com/user-attachments/assets/de98d360-20c5-4ea9-a234-ba3309a41797"  />
-  <img src="https://github.com/user-attachments/assets/66606481-bb15-4fa5-8465-14bd116565c5" width="400"/>
+  <img width="45" height="45" alt="physical-track-icon" src="https://github.com/user-attachments/assets/de98d360-20c5-4ea9-a234-ba3309a41797" />
+  &nbsp;
+  <img width="400" alt="피지컬 트랙 - README" src="https://github.com/user-attachments/assets/1578a816-c72b-4f25-9f30-a2469ef421a0" />
 </div>
 
 <div align="center">
