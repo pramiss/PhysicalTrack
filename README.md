@@ -1,5 +1,5 @@
 <div align="right">
-  <img width="200" height="152" alt="광운대 졸작" src="https://github.com/user-attachments/assets/7a438ca9-304a-4c55-8b8b-99cf7e0de186" />
+  <img width="180" height="152" alt="광운대 졸작" src="https://github.com/user-attachments/assets/7a438ca9-304a-4c55-8b8b-99cf7e0de186" />
 </div>
 
 </br>
